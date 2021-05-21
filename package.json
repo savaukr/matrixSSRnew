@@ -7,19 +7,23 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack server --config webpack.client.js --mode development",
     "build": "webpack --config webpack.client.js --mode production",
-    "dev": "webpack --config webpack.client.js --mode development"
+    "dev": "webpack --config webpack.client.js --mode development",
+    "start": "webpack --config webpack.server.js --mode production && node ./server/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.11",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9.8.6",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "css-loader": "^5.2.5",
+    "express": "^4.17.1",
     "html-webpack-plugin": "^5.3.1",
+    "mini-css-extract-plugin": "^1.6.0",
     "postcss-csso": "^5.0.1",
     "postcss-loader": "^5.3.0",
     "style-loader": "^2.0.0",
@@ -29,6 +33,7 @@
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2",
+    "webpack-node-externals": "^3.0.0",
     "webpack-notifier": "^1.13.0"
   },
   "dependencies": {
