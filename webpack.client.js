@@ -4,6 +4,7 @@ const WebpackNotifierPlugin = require('webpack-notifier')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpackConfig = require('./webpack.config')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = (env, argv) => {
     const watchMode = argv.liveReload || false
@@ -44,7 +45,7 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 config.modules.js,
-                config.modules.stylus,
+                config.modules.stylus
             ],
         },
         plugins: [

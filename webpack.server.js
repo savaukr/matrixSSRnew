@@ -24,7 +24,7 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 config.modules.js,
-                config.modules.stylusIsomorph,
+                config.modules.stylusIsomorph
             ],
         },
         entry: {

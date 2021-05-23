@@ -3,7 +3,7 @@ import express from 'express'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router'
-import { App } from './App'
+import  App  from './App'
 import { Html } from './Html/Server'
 
 const port = 3000
