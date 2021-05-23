@@ -1,10 +1,14 @@
 import React from 'react'
+import {IStateMatrixHelp} from '../typesTS/typesTS'
 
 interface Html {
-    scripts: Array<string>
+    scripts: Array<string>,
+    preloadedState: {
+        matrix: IStateMatrixHelp;
+    }
 }
 
-export function Html({ children, scripts }: React.PropsWithChildren<Html>) {
+export function Html({ children, scripts, preloadedState }: React.PropsWithChildren<Html>) {
     return (
         <html>
             <head>
@@ -15,6 +19,12 @@ export function Html({ children, scripts }: React.PropsWithChildren<Html>) {
             </head>
             <body>
                 <div id="root">{children}</div>
+                <script>
+                    window.__PRELOADED_STATE__ = `${JSON.stringify(preloadedState).replace(
+                        /</g,
+                        '\\u003c'
+                    )}`
+                </script>
                 {scripts.map((script, index) => <script src={script} key={index} />)}
             </body>
         </html>

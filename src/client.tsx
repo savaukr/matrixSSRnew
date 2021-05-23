@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { rootReducer } from "./redux/rootReducer";
 
 const preloadedState = ((window as any)).__PRELOADED_STATE__
-console.log(preloadedState)
 delete ((window as any)).__PRELOADED_STATE__
 
 const store = createStore(
