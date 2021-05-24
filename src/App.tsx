@@ -23,7 +23,7 @@ const App: FC<IAppProps> = ({ addRow, matrix }): any => {
   }
 
   const addRowHandle = (event: React.MouseEvent<HTMLButtonElement>) => {
-    addRow(getMatrixRow(N, matrix.length));
+    addRow(getMatrixRow(matrix[0].length | N, matrix.length));
   };
 
   try {

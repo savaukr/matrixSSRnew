@@ -3,7 +3,7 @@ import {ADD_ROW, DELETE_ROW, INCREASE_AMOUNT,
 import {M, N} from '../config/config'
 import { IRowItem, IStateMatrixHelp,  ActionsTypes } from '../typesTS/typesTS'
 
-function getMatrixRow(columns:number=N, i:number): IRowItem[] {
+function getMatrixRow(columns:number, i:number): IRowItem[] {
     const row=[]
     for (let j=0; j < columns; j++) {
       const amount = Math.floor( Math.random() * 1001)
@@ -12,7 +12,7 @@ function getMatrixRow(columns:number=N, i:number): IRowItem[] {
     return row
   }
 
-  function getMatrix(rows:number=M,columns:number=N):IRowItem[][] {
+  export function getMatrix(rows:number,columns:number):IRowItem[][] {
     let table = []
     for (let i=0; i< rows; i++) {
         table[i]= getMatrixRow(columns, i) 
@@ -21,10 +21,10 @@ function getMatrixRow(columns:number=N, i:number): IRowItem[] {
   }
 
  const initialState:IStateMatrixHelp = {
-	matrix:getMatrix() 
+	matrix:getMatrix(M, N)
 }
 
-export const matrixReducer = (state = initialState, action: ActionsTypes): IStateMatrixHelp => {
+export const matrixReducer = (state=initialState, action: ActionsTypes): IStateMatrixHelp => {
 	let arr = state.matrix.concat()
 
 	switch (action.type) {

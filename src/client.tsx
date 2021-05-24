@@ -8,6 +8,8 @@ import { rootReducer } from "./redux/rootReducer";
 const preloadedState = ((window as any)).__PRELOADED_STATE__
 delete ((window as any)).__PRELOADED_STATE__
 
+alert(preloadedState)
+
 const store = createStore(
   rootReducer,
   preloadedState,
@@ -30,16 +32,3 @@ renderFunction(
   <React.StrictMode>{app}</React.StrictMode>,
   entryBlock
 );
-
-// if (document.getElementById("root").hasChildNodes() === true) {
-//   ReactDOM.hydrate(
-//     <React.StrictMode>{app}</React.StrictMode>,
-//     document.getElementById("root")
-//   );
-// } else {
-//   ReactDOM.render(
-//     <React.StrictMode>{app}</React.StrictMode>,
-//     document.getElementById("root")
-//   );
-// }
-
