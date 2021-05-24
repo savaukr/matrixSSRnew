@@ -84,15 +84,35 @@ const PORT = process.env.PORT || 4000;
  console.log('jsFiles', jsFiles)
 //------------------------
 
+//let staticBasePath = '../dist'
+
 const server = http.createServer((req, res) => {
-   res.setHeader("Content-Type", "text/html; charset=utf-8;")
+   // const resolvedBase = path.resolve(staticBasePath)
+   // const safeSuffix = path.normalize(req.url).replace(/^(\.\.[\/\\])+/, '');
+   // const fileLoc = path.join(resolvedBase, safeSuffix);
+   // console.log('filelock=', fileLoc)
+   //res.setHeader("Content-Type", "text/html; charset=utf-8;")
    if ( /^\/\?rows=/.test(req.url) || /^\/$/.test(req.url)) {
      try {
          handleRender(req, res)
       }  catch(e){
          res.end('Щось пішло не так!')
      }
-   }
+   } 
+   //    else {
+   //       fs.readFile(fileLoc, function(err, data) {
+   //          if (err) {
+   //             res.writeHead(404, 'Not Found');
+   //             res.write('404: File Not Found!');
+   //             return res.end();
+   //          }
+            
+   //          res.statusCode = 200;
+   
+   //          res.write(data);
+   //          return res.end();
+   //    });
+   // }
 })
 
 async function handleRender(req:any, res:any) {
@@ -124,29 +144,41 @@ async function handleRender(req:any, res:any) {
 }
 
 async function renderFullPage(html:string, preloadedState={}) {
-   const indexFile = path.resolve('./dist/index.html');
-   //const cssFile = path.resolve('./server/main.css')
-   // const js0 = path.resolve(jsFiles[0])
-   // const js1 = path.resolve(jsFiles[1])
-   let data = await fsp.readFile(indexFile);
-   data = data.toString()
-   if (data) {
-      data = data.replace('<div id="root"></div>', `
-         <div id="root">${html}</div>
-         <script>
-               window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
-               /</g,
-               '\\u003c'
-               )}
-         </script>
-         <script  defer src="/dist/${jsFiles[0]}"></script>
-         <script src="${jsFiles[1]}" ></script>
+   try {
+      const indexFile = path.resolve('./dist/index.html');
 
-      `)
-    //   data = data.replace(/href="\//g, `href="/build/`)
-    //   data = data.replace(/src="\/static/g, `src="/build/static`)
-      return data
-   } else return false
+      // const js0 = path.resolve(__dirname, '../dist/assets/main.91b2e5429de00d7c7d77.js')
+      // const js1 = path.resolve(__dirname, '../dist/assets/vendors.8c9b81db073c8f35260e.js')
+      // // let datajs0 = await fsp.readFile(js0)
+      // let datajs1 = await fsp.readFile(js1)
+      // // datajs0 = datajs0.toString()
+      // datajs1 = datajs1.toString()
+      // console.log('datajs0=',  datajs1)
+
+      let data = await fsp.readFile(indexFile);
+      data = data.toString()
+      if (data) {
+         // //data = data.replace(/<script .*?<\/script>/gi, '')
+         // let arrSrces: string[] =  Array.from(data.matchAll(/src="(.*?)"/gi))
+        
+         // console.log('data=', data)
+         // arrSrces.forEach((src) => { 
+         //    const srcPath = `/../dist${src[1]}`
+         //    data = data.replace(`${src[1]}`, `${srcPath}`) 
+         // })
+         // console.log('data=', data)
+         data = data.replace('<div id="root"></div>', `
+            <div id="root">${html}</div>
+            <script>
+                  window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+                  /</g,
+                  '\\u003c'
+                  )}
+            </script>           
+         `)
+         return data
+      } else return false
+   } catch (e) {console.log(e)}
 }
 
 server.listen(PORT)
