@@ -41,10 +41,11 @@ export function HtmlParams ({children, scripts}: React.PropsWithChildren<HtmlPar
             <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1" />
             <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
             <title>React Starter Pack</title>
+            <link rel="stylesheet" href='/main.css'/>
         </head>
         <body>
             <div id="root">{children}</div>
-            {scripts.map((script, index) => <script src={script} key={index} />)}
+            {scripts.map((script, index) => <script  src={script} key={index} />)}
         </body>
     </html>
     )

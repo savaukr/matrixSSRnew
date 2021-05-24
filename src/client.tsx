@@ -23,10 +23,12 @@ export const app = (
   </Provider>
 );
 
+const entryBlock = document.getElementById("root")
+const renderFunction: ReactDOM.Renderer = entryBlock.hasChildNodes() ? ReactDOM.hydrate : ReactDOM.render
 
-ReactDOM.hydrate(
+renderFunction(
   <React.StrictMode>{app}</React.StrictMode>,
-  document.getElementById("root")
+  entryBlock
 );
 
 // if (document.getElementById("root").hasChildNodes() === true) {

@@ -13,13 +13,14 @@ import {rootReducer} from './redux/rootReducer'
 import url from 'url'
 import {FormParamsMatrix} from './components/FormParamsMatrix/FormParamsMatrix'
 
-const port = 3000
+const port = 4000
 const server = express()
 const jsFiles: Array<string> = []
 
 fs.readdirSync('./dist/assets').forEach(file => {
     if (file.split('.').pop() === 'js') jsFiles.push('/assets/' + file)
 })
+
 
 server.use('/assets', express.static('./dist/assets'))
 
@@ -32,16 +33,14 @@ function handlerRender(req: Request, res: Response) {
      const query = url.parse(req.url, true).query
      const rows = query.rows as string
      const columns = query.columns as string
+     
      if (!parseInt(rows) || !parseInt(columns)) {
         ReactDOMServer.renderToNodeStream(
-            <HtmlParams scripts={jsFiles} >
-                <Provider store = {store}>
-                    <StaticRouter location={req.url} context={{}}>
-                        <FormParamsMatrix />
-                    </StaticRouter>
-                </Provider>
-            </HtmlParams>).pipe(res)
-     } else {
+               <HtmlParams scripts={[]} >
+                     <FormParamsMatrix />
+               </HtmlParams>).pipe(res)
+      } else {
+        
         ReactDOMServer.renderToNodeStream(
             <Html scripts={jsFiles} preloadedState={store.getState()}>
                 <Provider store = {store}>
@@ -54,8 +53,95 @@ function handlerRender(req: Request, res: Response) {
         
 }
 
-// function renderFullPage(html, prelodedState) {
-  
-// }
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
+
+//=====================================================================================================================
+
+// import path from 'path';
+// import React from 'react';
+// import { createStore } from 'redux'
+// import {Provider} from 'react-redux'
+// import {rootReducer} from './redux/rootReducer'
+// import { renderToString } from 'react-dom/server'
+// import App from './App';
+// import { FormParamsMatrix } from './components/FormParamsMatrix/FormParamsMatrix'
+
+// import http from 'http'
+// import url from 'url'
+// import fs from 'fs'
+// const fsp = require('fs').promises;
+
+// const PORT = process.env.PORT || 4000;
+//  //------------------------------
+//  const jsFiles: Array<string> = []
+//  fs.readdirSync(path.resolve(__dirname, '../dist/assets/')).forEach(file => {
+//     if (file.split('.').pop() === 'js') jsFiles.push('/assets/' + file)
+//  })
+//  console.log('jsFiles', jsFiles)
+// //------------------------
+
+// const server = http.createServer((req, res) => {
+//    res.setHeader("Content-Type", "text/html; charset=utf-8;")
+//    if ( /^\/\?rows=/.test(req.url) || /^\/$/.test(req.url)) {
+//      try {
+//          handleRender(req, res)
+//       }  catch(e){
+//          res.end('Щось пішло не так!')
+//      } 
+//    }
+// })
+
+
+// async function handleRender(req:any, res:any) {
+//    const query = url.parse(req.url, true).query
+//    const rows = query.rows as string
+//    const columns = query.columns as string
+//    let data
+//    if (!parseInt(rows) || !parseInt(columns)) {
+//       const html= renderToString(<FormParamsMatrix/>)
+//       data = await renderFullPage(html)
+//    }   else {
+//       const store = createStore(rootReducer)
+//       const html = renderToString(
+//          <Provider store={store}>
+//             <App />
+//          </Provider>
+//       )
+//       const preloadedState = store.getState()
+//       data = await renderFullPage(html, preloadedState)
+//    }
+//    if (data) {
+//       res.end(data) 
+//    }
+//       else res.end('No data') 
+// }
+
+// async function renderFullPage(html:string, preloadedState={}) {
+//    const indexFile = path.resolve('./dist/index.html');
+//    //const cssFile = path.resolve('./server/main.css')
+//    // const js0 = path.resolve(jsFiles[0])
+//    // const js1 = path.resolve(jsFiles[1])
+//    let data = await fsp.readFile(indexFile);
+//    data = data.toString()
+//    if (data) {
+//       data = data.replace('<div id="root"></div>', `
+//          <div id="root">${html}</div>
+//          <script>
+//                window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+//                /</g,
+//                '\\u003c'
+//                )}
+//          </script>
+//          <script  defer src="${jsFiles[0]}"></script>
+//          <script src="${jsFiles[1]}" ></script>
+
+//       `)
+//     //   data = data.replace(/href="\//g, `href="/build/`)
+//     //   data = data.replace(/src="\/static/g, `src="/build/static`)
+//       return data
+//    } else return false
+// }
+
+// server.listen(PORT)
+// console.log(`http server running at port:${PORT}` )
