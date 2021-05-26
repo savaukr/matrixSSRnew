@@ -51,15 +51,15 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new CleanWebpackPlugin(),
-            new HtmlWebpackPlugin({
-                template: './src/Html/Browser.html', // Скармливаем наш HTML-темплейт
-            }),
-            new WebpackNotifierPlugin({ alwaysNotify: false }),
             new CopyPlugin({
                 patterns: [
                   { from: "./src/Html/favicon.ico", to: "./" },
                 ],
-              }),
+            }),
+            new HtmlWebpackPlugin({
+                template: './src/Html/Browser.html', // Скармливаем наш HTML-темплейт
+            }),
+            new WebpackNotifierPlugin({ alwaysNotify: false }),
         ],
         entry: {
             main: './src/Client.tsx', // Энтрипоинт-файл, с которого и начнется наша сборка

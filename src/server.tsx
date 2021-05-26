@@ -89,7 +89,7 @@ const server = http.createServer((req, res) => {
    const extname = path.extname(filePath)
    let contentType = 'text/html';
    // try {
-      if ( /^\/\?rows=/.test(filePath) || /^\/$/.test(filePath)) {
+      if ( /^\/\?M=/.test(filePath) || /^\/$/.test(filePath)) {
             data = handleRender(req, res)
       } else  {
          switch(extname) {
@@ -110,18 +110,15 @@ const server = http.createServer((req, res) => {
 
 function handleRender(req:http.IncomingMessage, res:http.ServerResponse) {
    const query = url.parse(req.url, true).query
-   const rows = query.rows as string
-   const columns = query.columns as string
-   //let data
-  
-   // if (!parseInt(rows) || !parseInt(columns)) {
-   //    const html= renderToString(<FormParamsMatrix/>)
-   //    data = renderFullPage(html)
-   // }   else {
-      //const store = createStore(rootReducer)
-      //const preloadedState = store.getState()
-      const preloadedState = getMatrix(+rows, +columns)
-      const store = createStore(rootReducer, {matrix:{matrix:preloadedState}});
+   const rows = query.M as string
+   const columns = query.N as string
+   const X = query.X as string
+
+      const preloadedState = {
+         matrix: {matrix: getMatrix(+rows, +columns)},
+         params:  {M1:+rows, N1:+columns, X1:+X}
+      }
+      const store = createStore(rootReducer, preloadedState);
       const html = renderToString(
          <Provider store={store}>
             <App />

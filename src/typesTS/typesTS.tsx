@@ -18,9 +18,16 @@ export interface IRowItem {
 export interface IStateMatrixHelp {
   matrix: IRowItem[][];
 }
+export interface IStateParamsHelp {
+  M1:number | null;
+  N1:number | null;
+  X1:number | null;
+
+}
 
 export interface IStateMatrix {
   matrix: IStateMatrixHelp;
+  params: IStateParamsHelp;
 }
 export interface IAverage {
   id: string;
