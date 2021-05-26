@@ -97,9 +97,7 @@ const server = http.createServer((req, res) => {
                contentType = 'text/javascript';
                break;
          }
-         filePath = path.resolve(__dirname, `../dist${filePath}`)
-         console.log('sss=', filePath)
-        
+         filePath = path.resolve(__dirname, `../dist${filePath}`)        
          data = fs.readFileSync(filePath, 'utf8')
          
       }

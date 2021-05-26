@@ -21,7 +21,7 @@ function getMatrixRow(columns:number, i:number): IRowItem[] {
   }
 
  const initialState:IStateMatrixHelp = {
-	matrix: []
+	matrix:getMatrix(M, N)
 }
 
 export const matrixReducer = (state=initialState, action: ActionsTypes): IStateMatrixHelp => {

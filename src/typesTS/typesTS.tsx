@@ -16,7 +16,7 @@ export interface IRowItem {
 }
 
 export interface IStateMatrixHelp {
-  matrix: IRowItem[][] | [];
+  matrix: IRowItem[][];
 }
 
 export interface IStateMatrix {
