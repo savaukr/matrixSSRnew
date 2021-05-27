@@ -7,17 +7,19 @@ import {
   mouseOut,
   mouseOverSum,
 } from "../../redux/actions";
-import { X } from "../../config/config";
+//import { X } from "../../config/config";
 import "./Row.css";
 import {
   IRowItem,
   IStateMatrix,
   ActionsTypes,
   IAverage,
+  IStateParamsHelp,
 } from "../../typesTS/typesTS";
 
 interface IRowProps {
   matrix: IRowItem[][];
+  params: IStateParamsHelp;
   arrRow: IAverage[];
   footerClass: string;
   ind: number;
@@ -29,6 +31,7 @@ interface IRowProps {
 
 const Row: FC<IRowProps> = ({
   matrix,
+  params,
   arrRow,
   footerClass,
   ind,
@@ -110,7 +113,7 @@ const Row: FC<IRowProps> = ({
       const row = +event.target.dataset.id.split("x")[0];
       const column = +event.target.dataset.id.split("x")[1];
       const arr = matrix.concat();
-      let arrNear = findXNearAmount(arr, arr[row][column], X);
+      let arrNear = findXNearAmount(arr, arr[row][column], params.X1);
 
       arrNear.forEach((elem: IRowItem) => {
         const i = +elem.id.split("x")[0];
@@ -194,6 +197,7 @@ const Row: FC<IRowProps> = ({
 const mapStateToProps = (state: IStateMatrix) => {
   return {
     matrix: state.matrix.matrix,
+    params: state.params
   };
 };
 

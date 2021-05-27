@@ -5,6 +5,8 @@ import {
   MOUSE_OVER_CEIL,
   MOUSE_OVER_SUM,
   MOUSE_OUT,
+  ADD_PARAMS,
+  ADD_MATRIX
 } from "../redux/types";
 
 // interface fro component
@@ -65,10 +67,21 @@ interface IMouseOverSum {
   payload: IRowItem[][];
 }
 
+interface IAddParams {
+  type: typeof ADD_PARAMS;
+  payload:  IStateParamsHelp;
+}
+interface IAddMatrix {
+  type: typeof ADD_MATRIX;
+  payload: IRowItem[][]
+}
+
 export type ActionsTypes =
   | IAddRow
   | IDeleteRow
   | IIncreaseAmount
   | IMouseOverCeil
   | IMouseOut
-  | IMouseOverSum;
+  | IMouseOverSum
+  | IAddParams
+  | IAddMatrix
