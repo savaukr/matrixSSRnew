@@ -1,0 +1,51 @@
+{
+  "automock": false,
+  "projects": [
+    {
+      "displayName": "Web",
+      "testMatch": [
+        "<rootDir>/src/*.test.(ts|tsx|js)",
+        "<rootDir>/server/**/*.test.(ts|tsx|js)",
+        "<rootDir>/**/*.test.(ts|tsx|js)"
+      ],
+      "setupFilesAfterEnv": ["jest-localstorage-mock", "./setUpTests.js"],
+      "testURL": "http://localhost",
+      "transform": {
+        "\\.[jt]sx?$": "babel-jest",
+        "^.+\\.mjs$": "babel-jest",
+        "\\.css$": "babel-jest"
+      }
+    },
+    {
+      "displayName": "Mobile",
+      "testMatch": ["<rootDir>/mobile/**/*.test-discard.js"],
+      "rootDir": ".",
+      "roots": ["<rootDir>"],
+      "transformIgnorePatterns": [
+        "node_modules/(?!(jest-)?react-native|react-navigation|react-navigation-redux-helpers|@ptomasroos/react-native-multi-slider)",
+        "node_modules/babel-runtime",
+        "node_modules/babel-plugin-transform-runtime",
+        "node_modules/transform-runtime"
+      ],
+      "setupFiles": [
+        "./setUpTests.js"
+      ]
+    }
+  ],
+  "coverageThreshold": {
+    "global": {
+      "lines": 22.97,
+      "statements": 22.85,
+      "functions": 22.41,
+      "branches": 17.74
+    }
+  },
+  "collectCoverageFrom": [
+    "./**/*.(ts|tsx|js)",
+    "src/**/**/*.(ts|tsx|js)",
+    "server/**/*.(ts|tsx|js)",
+    "!**/__tests__/*.(ts|tsx|js)",
+    "!**/__test__/*.(ts|tsx|js)"
+  ],
+  "coverageReporters": ["text-summary"]
+}
