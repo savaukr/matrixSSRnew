@@ -17,6 +17,7 @@ interface IAppProps {
 }
 
 const App: FC<IAppProps> = ({ addRow, addParams, addMatrix, matrix }): any => {
+  
   function getMatrixRow(columns:number, i: number) {
     const row = [];
     for (let j = 0; j < columns; j++) {

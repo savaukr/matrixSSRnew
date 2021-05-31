@@ -9,7 +9,7 @@ import {
   ADD_MATRIX
 } from "../redux/types";
 
-// interface fro component
+// interface for component
 export interface IRowItem {
   amount: number;
   bright: boolean;
