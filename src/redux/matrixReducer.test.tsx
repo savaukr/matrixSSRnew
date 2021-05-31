@@ -22,7 +22,6 @@ describe("matrixreducer tests:", () => {
                  {amount: 600, bright: false, id: '3x1',part: false},
                  {amount: 700, bright: false, id: '3x2',part: false}
                 ]
-    const output = {...initialState}.matrix.push(row)
     test("matrix reducer should return ", () => {
         expect(matrixReducer( initialState, addRow(row)).matrix[3]).toEqual(expect.arrayContaining(row))
     })
