@@ -109,13 +109,17 @@ describe('test for user event', () => {
         act(() => expect(+ceil.props.children[0]).toEqual(amount+1))
     });
     //--------------------------------------------------------------------------------------
-    //hover on ceil
+    //mouseover and mpuseout  on ceil
     test("it shows the matrix and it hover on the ceil", () => {        
         act(createComponent)
         actUtils(renderComponent);
-        ReactTestUtils.Simulate.mouseOver(container.querySelector("[data-id='0x1']"))
-        const bright = store.getState().matrix.matrix[0][0].bright
-        act(() => expect(bright).toBe(true))
+        const ceil = container.querySelector("[data-id='0x1']")
+        ReactTestUtils.Simulate.mouseOver(ceil)
+        const brightOver = store.getState().matrix.matrix[0][0].bright
+        act(() => expect(brightOver).toBe(true))
+        ReactTestUtils.Simulate.mouseOut(ceil)
+        const brightOut = store.getState().matrix.matrix[0][0].bright
+        act(() => expect(brightOut).toBe(false))
     });
     //--------------------------------------------------------------------------------------
     //hover on sum
