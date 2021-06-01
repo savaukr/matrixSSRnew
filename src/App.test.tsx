@@ -126,9 +126,13 @@ describe('test for user event', () => {
     test("it shows the matrix and it hover on the sum", () => {        
         act(createComponent)
         actUtils(renderComponent);
-        ReactTestUtils.Simulate.mouseOver(container.querySelector("[data-ind='0']"))
-        const part = store.getState().matrix.matrix[0][0].part
-        act(() => expect(part).toBe(true))
+        const ceilSum = container.querySelector("[data-ind='0']")
+        ReactTestUtils.Simulate.mouseOver(ceilSum)
+        const partOver = store.getState().matrix.matrix[0][0].part
+        act(() => expect(partOver).toBe(true))
+        ReactTestUtils.Simulate.mouseOut(ceilSum)
+        const partOut = store.getState().matrix.matrix[0][0].part
+        act(() => expect(partOut).toBe(false))
     });
     //------------------------------------------------------------------------------------
     //click on delete row
