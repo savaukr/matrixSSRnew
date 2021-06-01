@@ -94,8 +94,8 @@ const Row: FC<IRowProps> = ({
       }
 
       if (X % 2) {
-        const diffStart = arrSort[start]["amount"] - arrSort[index]["amount"];
-        const diffEnd = arrSort[index]["amount"] - arrSort[end]["amount"];
+        const diffStart = arrSort[start].amount - arrSort[index].amount;
+        const diffEnd = arrSort[index].amount - arrSort[end].amount;
         if (diffStart !== diffEnd && diffStart > diffEnd) start++;
         else end--;
       }
