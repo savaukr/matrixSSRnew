@@ -1,5 +1,7 @@
 {
   "automock": false,
+  "collectCoverage": false,
+  "testEnvironment": "node",
   "projects": [
     {
       "displayName": "Web",

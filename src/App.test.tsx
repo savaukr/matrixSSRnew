@@ -9,16 +9,19 @@ import { act, create } from "react-test-renderer";
 import {IStateMatrix} from './typesTS/typesTS'
 import App from './App'
 
+//import { JSDOM } from 'jsdom'
+//--config=jest.config.json
+
 //================================================================================
 //test: are params that matrix renders, also form renders
 describe("App component", () => {
     //------------------------------------------------------------------------
     test("it shows the form for adding params of matrix", () => {
-        const preloadedState:IStateMatrix = {
+        let preloadedState:IStateMatrix = {
             matrix: {matrix: []},
             params:  {M1:null, N1:null, X1:null}
         }
-        const store = createStore(rootReducer, preloadedState);
+        let store = createStore(rootReducer, preloadedState);
         let component
         act(() => {
             component = create(
@@ -27,13 +30,11 @@ describe("App component", () => {
                 </Provider>
             );
         })
-            const instance = component?.root;
-            const button = instance.findByType('button');
-            expect(button.props.children).toBe('Відправити параметри матриці')
-    });
-    //---------------------------------------------------------------------
-    test("it shows the matrix", () => {
-        const preloadedState = {
+            // const instance = component.root;
+            // const button = instance.findByType('button');
+            // expect(button.props.children).toBe('Відправити параметри матриці')
+        expect(component.toJSON()).toMatchSnapshot()
+        preloadedState = {
             matrix: {matrix:[[
                 {amount: 100, bright: false, id: '0x0', part: false},
                 {amount: 300, bright: false, id: '0x1', part: false},
@@ -41,40 +42,65 @@ describe("App component", () => {
             ]]},
             params:  {M1:1, N1:3, X1:2}
         }
-        const store = createStore(rootReducer, preloadedState);
-        let component
+        store = createStore(rootReducer, preloadedState);
         act(() => {
-            component = create(
+            component.update(
                 <Provider store={store}>
                     <App />
                 </Provider>
             );
         })
-        
-        const instance = component?.root;
-        const h4 = instance.findByType('h4');
-        expect(h4.props.children).toEqual(["Matrix ", 1, "x", 3])
+        expect(component.toJSON()).toMatchSnapshot()
     });
+    //---------------------------------------------------------------------
+    // test("it shows the matrix", () => {
+    //     const preloadedState = {
+    //         matrix: {matrix:[[
+    //             {amount: 100, bright: false, id: '0x0', part: false},
+    //             {amount: 300, bright: false, id: '0x1', part: false},
+    //             {amount: 440, bright: false, id: '0x2', part: false}
+    //         ]]},
+    //         params:  {M1:1, N1:3, X1:2}
+    //     }
+    //     const store = createStore(rootReducer, preloadedState);
+    //     let component
+    //     act(() => {
+    //         component = create(
+    //             <Provider store={store}>
+    //                 <App />
+    //             </Provider>
+    //         );
+    //     })
+        
+    //     const instance = component?.root;
+    //     const h4 = instance.findByType('h4');
+    //     expect(h4.props.children).toEqual(["Matrix ", 1, "x", 3])
+    // });
 
     
 });
 
+
 //=============================================================================================================
 describe('test for user event', () => {
-    let container, preloadedState, store,
+    let container, store,
     component, createComponent, renderComponent
-    beforeEach(() => {
-        container = document.createElement("div");
-        document.body.appendChild(container);
-        
-        preloadedState = {
-            matrix: {matrix:[[
-                {amount: 100, bright: false, id: '0x0', part: false},
-                {amount: 300, bright: false, id: '0x1', part: false},
-                {amount: 440, bright: false, id: '0x2', part: false}
-            ]]},
-            params:  {M1:1, N1:2, X1:1}
-        }
+    const preloadedState = {
+        matrix: {matrix:[[
+            {amount: 100, bright: false, id: '0x0', part: false},
+            {amount: 300, bright: false, id: '0x1', part: false},
+            {amount: 440, bright: false, id: '0x2', part: false}
+        ]]},
+        params:  {M1:1, N1:2, X1:1}
+    }
+    
+    container = document.createElement("div");
+    document.body.appendChild(container);
+    // const jsdom = new JSDOM()
+    // container = jsdom.window.document.createElement('div')
+
+    beforeEach(() => {  
+    
         store = createStore(rootReducer, preloadedState);
         createComponent = () => {
             component = create(
@@ -92,8 +118,8 @@ describe('test for user event', () => {
     });
 
     afterEach(() => {
-        document.body.removeChild(container);
-        container = null;
+       //document.body.removeChild(container);
+       //container = null;
     });
     
    //--------------------------------------------------------------------------
