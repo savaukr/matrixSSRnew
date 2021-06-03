@@ -8,8 +8,6 @@ import { rootReducer } from "./redux/rootReducer";
 const preloadedState = ((window as any)).__PRELOADED_STATE__
 delete ((window as any)).__PRELOADED_STATE__
 
-alert(preloadedState)
-
 const store = createStore(
   rootReducer,
   preloadedState,

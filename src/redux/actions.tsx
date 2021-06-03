@@ -1,6 +1,6 @@
 import {ADD_ROW, DELETE_ROW, INCREASE_AMOUNT,
-		MOUSE_OVER_CEIL, MOUSE_OUT, MOUSE_OVER_SUM} from './types';
-import { ActionsTypes, IRowItem } from '../typesTS/typesTS'
+		MOUSE_OVER_CEIL, MOUSE_OUT, MOUSE_OVER_SUM, ADD_PARAMS, ADD_MATRIX} from './types';
+import { ActionsTypes, IRowItem, IStateParamsHelp } from '../typesTS/typesTS'
 
 export  function addRow(row: IRowItem[]): ActionsTypes {
 	return {
@@ -38,5 +38,18 @@ export function mouseOverSum(arr: IRowItem[][]): ActionsTypes {
 	return {
 		type: MOUSE_OVER_SUM,
 		payload: arr
+	}
+}
+
+export function addParams(params:IStateParamsHelp): ActionsTypes {
+	return {
+		type: ADD_PARAMS,
+		payload: params
+	}
+}
+export function addMatrix(newMatrix: IRowItem[][]): ActionsTypes {
+	return {
+		type: ADD_MATRIX,
+		payload: newMatrix
 	}
 }

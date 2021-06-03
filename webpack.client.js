@@ -5,6 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpackConfig = require('./webpack.config')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, argv) => {
     const watchMode = argv.liveReload || false
@@ -50,6 +51,11 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new CleanWebpackPlugin(),
+            new CopyPlugin({
+                patterns: [
+                  { from: "./src/Html/favicon.ico", to: "./" },
+                ],
+            }),
             new HtmlWebpackPlugin({
                 template: './src/Html/Browser.html', // Скармливаем наш HTML-темплейт
             }),

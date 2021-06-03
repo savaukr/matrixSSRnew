@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component it shows the form for adding params of matrix 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="form_params"
+  >
+    <div>
+      
+    </div>
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="input-field"
+      >
+        <label
+          htmlFor="M"
+        >
+          Стрічки:
+        </label>
+        <input
+          id="M1"
+          name="M1"
+          onChange={[Function]}
+          placeholder="Введіть кількість стрічок"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="input-field"
+      >
+        <label
+          htmlFor="N"
+        >
+          Стовбці:
+        </label>
+        <input
+          id="N1"
+          name="N1"
+          onChange={[Function]}
+          placeholder="Введіть кількість стовпчиків"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="input-field"
+      >
+        <label
+          htmlFor="X"
+        >
+          X1:
+        </label>
+        <input
+          id="X1"
+          name="X1"
+          onChange={[Function]}
+          placeholder="Введіть X"
+          type="text"
+          value=""
+        />
+      </div>
+      <button
+        onClick={[Function]}
+      >
+        Відправити параметри матриці
+      </button>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`App component it shows the form for adding params of matrix 2`] = `
+<div
+  className="container"
+>
+  <div
+    className="matrix-wrap"
+  >
+    <div
+      className="matrix-content"
+    >
+      <h4>
+        Matrix 
+        1
+        x
+        3
+      </h4>
+      <div
+        className="matrix-header"
+      >
+        Сума по рядку
+      </div>
+      <div
+        className="matrix-row"
+      >
+        <div
+          className="matrix-ceil sidebar-row"
+        >
+          <button
+            onClick={[Function]}
+          >
+            ×
+          </button>
+        </div>
+        <div
+          className="matrix-ceil   "
+          data-id="0x0"
+          data-part="12%"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          100
+          <div
+            style={
+              Object {
+                "height": "24%",
+              }
+            }
+          />
+        </div>
+        <div
+          className="matrix-ceil   "
+          data-id="0x1"
+          data-part="36%"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          300
+          <div
+            style={
+              Object {
+                "height": "72%",
+              }
+            }
+          />
+        </div>
+        <div
+          className="matrix-ceil   "
+          data-id="0x2"
+          data-part="52%"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          440
+          <div
+            style={
+              Object {
+                "height": "104%",
+              }
+            }
+          />
+        </div>
+        <div
+          className="matrix-ceil sum"
+          data-id="sum"
+          data-ind={0}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          840
+        </div>
+      </div>
+      <div
+        className="matrix-row"
+      >
+        <div
+          className="matrix-ceil sidebar-row"
+        />
+        <div
+          className="matrix-ceil footer  "
+          data-id="footer0"
+          data-part="12%"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          100
+          <div
+            style={
+              Object {
+                "height": "24%",
+              }
+            }
+          />
+        </div>
+        <div
+          className="matrix-ceil footer  "
+          data-id="footer1"
+          data-part="36%"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          300
+          <div
+            style={
+              Object {
+                "height": "72%",
+              }
+            }
+          />
+        </div>
+        <div
+          className="matrix-ceil footer  "
+          data-id="footer2"
+          data-part="52%"
+          onClick={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          440
+          <div
+            style={
+              Object {
+                "height": "104%",
+              }
+            }
+          />
+        </div>
+        <div
+          className="matrix-ceil sum"
+          data-id="sum"
+          data-ind={1}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          840
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="addrRow-wrap"
+  >
+    <button
+      onClick={[Function]}
+    >
+      Створити рядок
+    </button>
+  </div>
+</div>
+`;

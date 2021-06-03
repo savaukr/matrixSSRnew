@@ -1,52 +1,74 @@
 import React, {FC, useState} from 'react'
 import './FormParamsMatrix.css'
-import {useHttp} from '../../hooks/http.hook'
+//import {useHttp} from '../../hooks/http.hook'
 
+interface IFormParamsMatrixProps {
+    addParamsHandle():any
+  }
 
-export const FormParamsMatrix:FC = ()=> {
+export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): any=> {
     const [form, setForm]=useState({
-        rows :'',
-        columns: ''
+        M1 :'',
+        N1: '',
+        X1:''
 	})
     const [message, setMessage] = useState('')
-    const {request} = useHttp()
+    //const {request} = useHttp()
 
     const changeHandler = (event:any) => {
 		setForm({...form, [event.target.name]: event.target.value})
 	}
 
-    const sendHandler =  async () => {
-		try {
-			const data = await request(`/?rows=${form.rows}&columns=${form.columns}`, 'GET')
-			setMessage(data.message)
-		} catch (e) {}
-	}
+    // const sendHandler =  async () => {
+	// 	try {
+	// 		const data = await request(`/?M=${form.rows}&N=${form.columns}&X=${form.X}`, 'GET')
+	// 		setMessage(data.message)
+	// 	} catch (e) {}
+	// }
+    const sendHandler = (e:any) => {
+        e.preventDefault()
+        const saveParams = addParamsHandle()
+        saveParams({M1: +form.M1, N1:+form.N1, X1:+form.X1})
+        setMessage("form is sending")
+    }
     return (
         <div className="form_params">
             <div>{message}</div>
-            <div className="input-field">
-                <label htmlFor="rows">Стрічки:</label>
-                    <input 
-                    placeholder="Введіть кількість стрічок"
-                    id="rows"
-                    type="text"
-                    name="rows"
-                    value={form.rows}
-                    onChange={changeHandler}
-                    />
-			</div>
-            <div className="input-field">
-                <label htmlFor="columns">Стовбці:</label>
-                <input 
-                placeholder="Введіть кількість стовпчиків"
-                id="columns"
-                type="text"
-                name="columns"
-                value={form.columns}
-                onChange={changeHandler}
-                />
-            </div>
-            <button onClick={sendHandler}>Відправити параметри матриці</button>
+                <form onSubmit={sendHandler}>
+                    <div className="input-field">
+                        <label htmlFor="M">Стрічки:</label>
+                            <input 
+                            placeholder="Введіть кількість стрічок"
+                            id="M1"
+                            type="text"
+                            name="M1"
+                            value={form.M1}
+                            onChange={changeHandler}
+                            />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="N">Стовбці:</label>
+                        <input 
+                        placeholder="Введіть кількість стовпчиків"
+                        id="N1"
+                        type="text"
+                        name="N1"
+                        value={form.N1}
+                        onChange={changeHandler}
+                        />
+                    </div><div className="input-field">
+                        <label htmlFor="X">X1:</label>
+                        <input 
+                        placeholder="Введіть X"
+                        id="X1"
+                        type="text"
+                        name="X1"
+                        value={form.X1}
+                        onChange={changeHandler}
+                        />
+                    </div>
+                     <button onClick={sendHandler}>Відправити параметри матриці</button>
+                </form>
         </div>
        
     )
