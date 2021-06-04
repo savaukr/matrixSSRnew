@@ -67,7 +67,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
                         onChange={changeHandler}
                         />
                     </div>
-                     <button onClick={sendHandler}>Відправити параметри матриці</button>
+                     <button className="sendParams" onClick={sendHandler}>Відправити параметри матриці</button>
                 </form>
         </div>
        

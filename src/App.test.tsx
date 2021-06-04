@@ -11,18 +11,21 @@ import App from './App'
 
 //import { JSDOM } from 'jsdom'
 //--config=jest.config.json
+let container, store,
+component, createComponent, renderComponent
 
 //================================================================================
 //test: are params that matrix renders, also form renders
 describe("App component", () => {
+    
     //------------------------------------------------------------------------
     test("it shows the form for adding params of matrix", () => {
         let preloadedState:IStateMatrix = {
             matrix: {matrix: []},
             params:  {M1:null, N1:null, X1:null}
         }
-        let store = createStore(rootReducer, preloadedState);
-        let component
+        store = createStore(rootReducer, preloadedState);
+        
         act(() => {
             component = create(
                 <Provider store={store}>
@@ -30,10 +33,9 @@ describe("App component", () => {
                 </Provider>
             );
         })
-            // const instance = component.root;
-            // const button = instance.findByType('button');
-            // expect(button.props.children).toBe('Відправити параметри матриці')
+        act(() => expect({M1:null, N1:null, X1:null}).toEqual(store.getState().params))
         expect(component.toJSON()).toMatchSnapshot()
+      
         preloadedState = {
             matrix: {matrix:[[
                 {amount: 100, bright: false, id: '0x0', part: false},
@@ -50,41 +52,58 @@ describe("App component", () => {
                 </Provider>
             );
         })
+        act(() => expect(preloadedState).toEqual(store.getState()))
         expect(component.toJSON()).toMatchSnapshot()
     });
-    //---------------------------------------------------------------------
-    // test("it shows the matrix", () => {
-    //     const preloadedState = {
-    //         matrix: {matrix:[[
-    //             {amount: 100, bright: false, id: '0x0', part: false},
-    //             {amount: 300, bright: false, id: '0x1', part: false},
-    //             {amount: 440, bright: false, id: '0x2', part: false}
-    //         ]]},
-    //         params:  {M1:1, N1:3, X1:2}
-    //     }
-    //     const store = createStore(rootReducer, preloadedState);
-    //     let component
-    //     act(() => {
-    //         component = create(
-    //             <Provider store={store}>
-    //                 <App />
-    //             </Provider>
-    //         );
-    //     })
+
+    //--------------------------------------------------------------------
+    test("send params", () => {
+        let preloadedState:IStateMatrix = {
+            matrix: {matrix: []},
+            params:  {M1:null, N1:null, X1:null}
+        }
+        store = createStore(rootReducer, preloadedState);
         
-    //     const instance = component?.root;
-    //     const h4 = instance.findByType('h4');
-    //     expect(h4.props.children).toEqual(["Matrix ", 1, "x", 3])
-    // });
-
+        act(() => {
+            component = create(
+                <Provider store={store}>
+                    <App />
+                </Provider>
+            );
+        })
     
+        const instance = component.root;
+        const M1 = instance.findByProps({id: "M1"})
+        renderComponent = () => {
+            ReactDOM.render(
+                <Provider store={store}>
+                    <App />
+                </Provider>, container);
+        }
+        actUtils(renderComponent);
+        // const M1DOM = container.querySelector("#M1")
+        // M1DOM.value = '3'
+        // console.log("M1=", M1DOM.value)
+        // //M1.value = '2'
+        // M1DOM.value = '3'
+        // //ReactTestUtils.Simulate.change(M1DOM, { target: { value: "2" } as unknown as EventTarget });
+        // ReactTestUtils.Simulate.keyPress(M1DOM, {key: "2", keyCode: 50, which: 50});
+        // console.log('store=', store.getState().params)
+        // const form = container.querySelector('form')
+        // const M1DOM = container.querySelector("#M1")
+        
+        // ReactTestUtils.Simulate.submit(form);
+        const button = container.querySelector("form button")
+        act(() => expect(store.getState().params).toEqual({ M1: null, N1: null, X1: null }))
+        ReactTestUtils.Simulate.click(button)
+        act(() => expect(store.getState().params).toEqual({ M1: 0, N1: 0, X1: 0 }))
+        
+    })
 });
-
 
 //=============================================================================================================
 describe('test for user event', () => {
-    let container, store,
-    component, createComponent, renderComponent
+   
     const preloadedState = {
         matrix: {matrix:[[
             {amount: 100, bright: false, id: '0x0', part: false},
@@ -96,11 +115,8 @@ describe('test for user event', () => {
     
     container = document.createElement("div");
     document.body.appendChild(container);
-    // const jsdom = new JSDOM()
-    // container = jsdom.window.document.createElement('div')
-
+  
     beforeEach(() => {  
-    
         store = createStore(rootReducer, preloadedState);
         createComponent = () => {
             component = create(
@@ -117,10 +133,10 @@ describe('test for user event', () => {
         }
     });
 
-    afterEach(() => {
-       //document.body.removeChild(container);
-       //container = null;
-    });
+    // afterEach(() => {
+    //    //document.body.removeChild(container);
+    //    //container = null;
+    // });
     
    //--------------------------------------------------------------------------
    //click on ceil
@@ -128,11 +144,12 @@ describe('test for user event', () => {
         act(createComponent)
         const instance = component.root;
         const ceil = instance.findByProps({'data-id':'0x1'});
-        const amount = +ceil.props.children[0]
         actUtils(renderComponent);
         const ceilDom = container.querySelector("[data-id='0x1']")
         ReactTestUtils.Simulate.click(ceilDom)
-        act(() => expect(+ceil.props.children[0]).toEqual(amount+1))
+        const amount = store.getState().matrix.matrix[0][1].amount
+        act(() => expect(+ceil.props.children[0]).toEqual(amount))
+        expect(component.toJSON()).toMatchSnapshot()
     });
     //--------------------------------------------------------------------------------------
     //mouseover and mpuseout  on ceil
@@ -146,6 +163,7 @@ describe('test for user event', () => {
         ReactTestUtils.Simulate.mouseOut(ceil)
         const brightOut = store.getState().matrix.matrix[0][0].bright
         act(() => expect(brightOut).toBe(false))
+        expect(component.toJSON()).toMatchSnapshot()
     });
     //--------------------------------------------------------------------------------------
     //hover on sum
@@ -159,6 +177,7 @@ describe('test for user event', () => {
         ReactTestUtils.Simulate.mouseOut(ceilSum)
         const partOut = store.getState().matrix.matrix[0][0].part
         act(() => expect(partOut).toBe(false))
+        expect(component.toJSON()).toMatchSnapshot()
     });
     //------------------------------------------------------------------------------------
     //click on delete row
@@ -169,17 +188,20 @@ describe('test for user event', () => {
         ReactTestUtils.Simulate.click(container.querySelector(".sidebar-row button"))
         const lengthEnd = store.getState().matrix.matrix.length
         act(() => expect(lengthStart).toBe(lengthEnd+1))
+        expect(component.toJSON()).toMatchSnapshot()
     });
     //------------------------------------------------------------------------------------
     //click on add row
     test("add row", () => {        
         act(createComponent)
+        expect(component.toJSON()).toMatchSnapshot()
         actUtils(renderComponent);
         const lengthStart = store.getState().matrix.matrix.length
         ReactTestUtils.Simulate.click(container.querySelector(".addrRow-wrap button"))
         const lengthEnd = store.getState().matrix.matrix.length
         //console.log('store', store.getState().matrix.matrix)
         act(() => expect(lengthStart).toBe(lengthEnd-1))
+       
     });
 
 })
