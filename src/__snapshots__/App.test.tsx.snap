@@ -11,6 +11,7 @@ exports[`App component it shows the form for adding params of matrix 1`] = `
       
     </div>
     <form
+      id="form"
       onSubmit={[Function]}
     >
       <div
@@ -448,6 +449,7 @@ exports[`test for user event delete row 1`] = `
       
     </div>
     <form
+      id="form"
       onSubmit={[Function]}
     >
       <div

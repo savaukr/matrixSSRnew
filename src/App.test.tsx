@@ -9,8 +9,6 @@ import { act, create } from "react-test-renderer";
 import {IStateMatrix} from './typesTS/typesTS'
 import App from './App'
 
-//import { JSDOM } from 'jsdom'
-//--config=jest.config.json
 let container, store,
 component, createComponent, renderComponent
 
@@ -74,13 +72,37 @@ describe("App component", () => {
     
         const instance = component.root;
         const M1 = instance.findByProps({id: "M1"})
-        renderComponent = () => {
-            ReactDOM.render(
-                <Provider store={store}>
-                    <App />
-                </Provider>, container);
-        }
-        actUtils(renderComponent);
+        const N1 = instance.findByProps({id: "N1"})
+        const X1 = instance.findByProps({id: "X1"})
+        
+        expect(M1.props.value).toEqual('');
+        const mEvent = { target: { value: '3' , name: 'M1'} };
+        const nEvent ={ target: { value: '4' , name: 'N1'} };
+        const xEvent = { target: { value: '2' , name: 'X1'} };
+        act(() => {
+            M1.props.onChange(mEvent)
+        })
+        act(() => { 
+            N1.props.onChange(nEvent)
+        })
+        act(() => {
+            X1.props.onChange(xEvent)
+        })
+        const form = instance.findByProps({id: "form"})
+        const fEvent = {preventDefault: ()=>{}}
+        act(() => {
+            form.props.onSubmit(fEvent)
+        })
+        expect(store.getState().params).toEqual({ M1: 3, N1: 4, X1: 2 });
+        
+
+        // renderComponent = () => {
+        //     ReactDOM.render(
+        //         <Provider store={store}>
+        //             <App />
+        //         </Provider>, container);
+        // }
+        // actUtils(renderComponent);
         // const M1DOM = container.querySelector("#M1")
         // M1DOM.value = '3'
         // console.log("M1=", M1DOM.value)
@@ -93,10 +115,12 @@ describe("App component", () => {
         // const M1DOM = container.querySelector("#M1")
         
         // ReactTestUtils.Simulate.submit(form);
-        const button = container.querySelector("form button")
-        act(() => expect(store.getState().params).toEqual({ M1: null, N1: null, X1: null }))
-        ReactTestUtils.Simulate.click(button)
-        act(() => expect(store.getState().params).toEqual({ M1: 0, N1: 0, X1: 0 }))
+
+
+        // const button = container.querySelector("form button")
+        // act(() => expect(store.getState().params).toEqual({ M1: null, N1: null, X1: null }))
+        // ReactTestUtils.Simulate.click(button)
+        // act(() => expect(store.getState().params).toEqual({ M1: 0, N1: 0, X1: 0 }))
         
     })
 });
