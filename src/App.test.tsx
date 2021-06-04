@@ -5,7 +5,7 @@ import {act as actUtils} from 'react-dom/test-utils';
 import { Provider } from "react-redux";
 import { createStore } from 'redux'
 import {rootReducer} from './redux/rootReducer'
-import { act, create } from "react-test-renderer";
+import { create } from "react-test-renderer";
 import {IStateMatrix} from './typesTS/typesTS'
 import App from './App'
 
@@ -24,14 +24,14 @@ describe("App component", () => {
         }
         store = createStore(rootReducer, preloadedState);
         
-        act(() => {
+        actUtils(() => {
             component = create(
                 <Provider store={store}>
                     <App />
                 </Provider>
             );
         })
-        act(() => expect({M1:null, N1:null, X1:null}).toEqual(store.getState().params))
+        actUtils(() => expect({M1:null, N1:null, X1:null}).toEqual(store.getState().params))
         expect(component.toJSON()).toMatchSnapshot()
       
         preloadedState = {
@@ -43,14 +43,14 @@ describe("App component", () => {
             params:  {M1:1, N1:3, X1:2}
         }
         store = createStore(rootReducer, preloadedState);
-        act(() => {
+        actUtils(() => {
             component.update(
                 <Provider store={store}>
                     <App />
                 </Provider>
             );
         })
-        act(() => expect(preloadedState).toEqual(store.getState()))
+        actUtils(() => expect(preloadedState).toEqual(store.getState()))
         expect(component.toJSON()).toMatchSnapshot()
     });
 
@@ -62,7 +62,7 @@ describe("App component", () => {
         }
         store = createStore(rootReducer, preloadedState);
         
-        act(() => {
+        actUtils(() => {
             component = create(
                 <Provider store={store}>
                     <App />
@@ -76,24 +76,27 @@ describe("App component", () => {
         const X1 = instance.findByProps({id: "X1"})
         
         expect(M1.props.value).toEqual('');
+
         const mEvent = { target: { value: '3' , name: 'M1'} };
         const nEvent ={ target: { value: '4' , name: 'N1'} };
         const xEvent = { target: { value: '2' , name: 'X1'} };
-        act(() => {
+        actUtils(() => {
             M1.props.onChange(mEvent)
         })
-        act(() => { 
+        actUtils(() => { 
             N1.props.onChange(nEvent)
         })
-        act(() => {
+        actUtils(() => {
             X1.props.onChange(xEvent)
         })
         const form = instance.findByProps({id: "form"})
         const fEvent = {preventDefault: ()=>{}}
-        act(() => {
+        actUtils(() => {
             form.props.onSubmit(fEvent)
         })
         expect(store.getState().params).toEqual({ M1: 3, N1: 4, X1: 2 });
+        expect(store.getState().matrix.matrix.length).toBe(3)
+        expect(store.getState().matrix.matrix[0].length).toBe(4)
         
 
         // renderComponent = () => {
@@ -165,66 +168,66 @@ describe('test for user event', () => {
    //--------------------------------------------------------------------------
    //click on ceil
     test("it shows the matrix and it clicks on the ceil", () => {        
-        act(createComponent)
+        actUtils(createComponent)
         const instance = component.root;
         const ceil = instance.findByProps({'data-id':'0x1'});
         actUtils(renderComponent);
         const ceilDom = container.querySelector("[data-id='0x1']")
         ReactTestUtils.Simulate.click(ceilDom)
         const amount = store.getState().matrix.matrix[0][1].amount
-        act(() => expect(+ceil.props.children[0]).toEqual(amount))
+        actUtils(() => expect(+ceil.props.children[0]).toEqual(amount))
         expect(component.toJSON()).toMatchSnapshot()
     });
     //--------------------------------------------------------------------------------------
     //mouseover and mpuseout  on ceil
     test("it shows the matrix and it hover on the ceil", () => {        
-        act(createComponent)
+        actUtils(createComponent)
         actUtils(renderComponent);
         const ceil = container.querySelector("[data-id='0x1']")
         ReactTestUtils.Simulate.mouseOver(ceil)
         const brightOver = store.getState().matrix.matrix[0][0].bright
-        act(() => expect(brightOver).toBe(true))
+        actUtils(() => expect(brightOver).toBe(true))
         ReactTestUtils.Simulate.mouseOut(ceil)
         const brightOut = store.getState().matrix.matrix[0][0].bright
-        act(() => expect(brightOut).toBe(false))
+        actUtils(() => expect(brightOut).toBe(false))
         expect(component.toJSON()).toMatchSnapshot()
     });
     //--------------------------------------------------------------------------------------
     //hover on sum
     test("it shows the matrix and it hover on the sum", () => {        
-        act(createComponent)
+        actUtils(createComponent)
         actUtils(renderComponent);
         const ceilSum = container.querySelector("[data-ind='0']")
         ReactTestUtils.Simulate.mouseOver(ceilSum)
         const partOver = store.getState().matrix.matrix[0][0].part
-        act(() => expect(partOver).toBe(true))
+        actUtils(() => expect(partOver).toBe(true))
         ReactTestUtils.Simulate.mouseOut(ceilSum)
         const partOut = store.getState().matrix.matrix[0][0].part
-        act(() => expect(partOut).toBe(false))
+        actUtils(() => expect(partOut).toBe(false))
         expect(component.toJSON()).toMatchSnapshot()
     });
     //------------------------------------------------------------------------------------
     //click on delete row
     test("delete row", () => {        
-        act(createComponent)
+        actUtils(createComponent)
         actUtils(renderComponent);
         const lengthStart = store.getState().matrix.matrix.length
         ReactTestUtils.Simulate.click(container.querySelector(".sidebar-row button"))
         const lengthEnd = store.getState().matrix.matrix.length
-        act(() => expect(lengthStart).toBe(lengthEnd+1))
+        actUtils(() => expect(lengthStart).toBe(lengthEnd+1))
         expect(component.toJSON()).toMatchSnapshot()
     });
     //------------------------------------------------------------------------------------
     //click on add row
     test("add row", () => {        
-        act(createComponent)
+        actUtils(createComponent)
         expect(component.toJSON()).toMatchSnapshot()
         actUtils(renderComponent);
         const lengthStart = store.getState().matrix.matrix.length
         ReactTestUtils.Simulate.click(container.querySelector(".addrRow-wrap button"))
         const lengthEnd = store.getState().matrix.matrix.length
         //console.log('store', store.getState().matrix.matrix)
-        act(() => expect(lengthStart).toBe(lengthEnd-1))
+        actUtils(() => expect(lengthStart).toBe(lengthEnd-1))
        
     });
 
