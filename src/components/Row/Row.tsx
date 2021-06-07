@@ -113,7 +113,7 @@ const Row: FC<IRowProps> = ({
       const row = +event.target.dataset.id.split("x")[0];
       const column = +event.target.dataset.id.split("x")[1];
       const arr = matrix.concat();
-      let arrNear = findXNearAmount(arr, arr[row][column], params.X1 | 3);
+      let arrNear = findXNearAmount(arr, arr[row][column], params.X1);
 
       arrNear.forEach((elem: IRowItem) => {
         const i = +elem.id.split("x")[0];
