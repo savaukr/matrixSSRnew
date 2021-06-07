@@ -46,7 +46,9 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 config.modules.js,
-                config.modules.stylus
+                config.modules.stylus,
+                config.modules.cssModules
+               
             ],
         },
         plugins: [
