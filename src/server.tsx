@@ -67,86 +67,88 @@ import {Provider} from 'react-redux'
 import {rootReducer} from './redux/rootReducer'
 import { renderToString } from 'react-dom/server'
 import App from './App';
-import { FormParamsMatrix } from './components/FormParamsMatrix/FormParamsMatrix'
 import { getMatrix } from "./redux/matrixReducer";
 
 import http from 'http'
 import url from 'url'
 import fs from 'fs'
-const fsp = require('fs').promises;
+//const fsp = require('fs').promises;
 
 const PORT = process.env.PORT || 4000;
  //------------------------------
- const jsFiles: Array<string> = []
- fs.readdirSync(path.resolve(__dirname, '../dist/assets/')).forEach(file => {
-    if (file.split('.').pop() === 'js') jsFiles.push('/assets/' + file)
- })
- console.log('jsFiles', jsFiles)
+//  const jsFiles: Array<string> = []
+//  fs.readdirSync(path.resolve(__dirname, '../dist/assets/')).forEach(file => {
+//     if (file.split('.').pop() === 'js') jsFiles.push('/assets/' + file)
+//  })
+//   console.log('jsFiles', jsFiles)
 //------------------------
 
 const server = http.createServer((req, res) => {
-   res.setHeader("Content-Type", "text/html; charset=utf-8;")
-   if ( /^\/\?rows=/.test(req.url) || /^\/$/.test(req.url)) {
-     try {
-         handleRender(req, res)
-      }  catch(e){
-         res.end('Щось пішло не так!')
-     }
-   }
+   let data:any
+   let filePath = req.url
+   const extname = path.extname(filePath)
+   let contentType = 'text/html';
+   // try {
+      if ( /^\/\?M=/.test(filePath) || /^\/$/.test(filePath)) {
+            data = handleRender(req, res)
+      } else  {
+         switch(extname) {
+            case '.js': 
+               contentType = 'text/javascript';
+               break;
+         }
+         filePath = path.resolve(__dirname, `../dist${filePath}`)        
+         data = fs.readFileSync(filePath, 'utf8')
+         
+      }
+      res.writeHead(200, { 'Content-Type': contentType });
+   // } catch(e){
+   //    data = 'Щось пішло не так!'
+   // }
+      res.end(data, 'utf-8')
 })
 
-async function handleRender(req:any, res:any) {
+function handleRender(req:http.IncomingMessage, res:http.ServerResponse) {
    const query = url.parse(req.url, true).query
-   const rows = query.rows as string
-   const columns = query.columns as string
-   let data
-  
-   if (!parseInt(rows) || !parseInt(columns)) {
-      const html= renderToString(<FormParamsMatrix/>)
-      data = await renderFullPage(html)
-   }   else {
-      //const store = createStore(rootReducer)
-      //const preloadedState = store.getState()
-      const preloadedState = getMatrix(+rows, +columns)
-      const store = createStore(rootReducer, {matrix:{matrix:preloadedState}});
+   const rows = query.M as string
+   const columns = query.N as string
+   const X = query.X as string
+
+      const preloadedState = {
+         matrix: {matrix: getMatrix(+rows, +columns)},
+         params:  {M1:+rows, N1:+columns, X1:+X}
+      }
+      const store = createStore(rootReducer, preloadedState);
       const html = renderToString(
          <Provider store={store}>
             <App />
          </Provider>
       )
       
-      data = await renderFullPage(html, preloadedState)
+      let data = renderFullPage(html, preloadedState)
+   // }
+   if (!data) {
+      data  = 'No data'
    }
-   if (data) {
-      res.end(data)
-   }
-      else res.end('No data')
+   return data
 }
 
-async function renderFullPage(html:string, preloadedState={}) {
-   const indexFile = path.resolve('./dist/index.html');
-   //const cssFile = path.resolve('./server/main.css')
-   // const js0 = path.resolve(jsFiles[0])
-   // const js1 = path.resolve(jsFiles[1])
-   let data = await fsp.readFile(indexFile);
-   data = data.toString()
-   if (data) {
-      data = data.replace('<div id="root"></div>', `
-         <div id="root">${html}</div>
-         <script>
-               window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
-               /</g,
-               '\\u003c'
-               )}
-         </script>
-         <script  defer src="/dist/${jsFiles[0]}"></script>
-         <script src="${jsFiles[1]}" ></script>
-
-      `)
-    //   data = data.replace(/href="\//g, `href="/build/`)
-    //   data = data.replace(/src="\/static/g, `src="/build/static`)
-      return data
-   } else return false
+function renderFullPage(html:string, preloadedState={}) {
+      const indexFile = path.resolve('./dist/index.html');
+      let data:any = fs.readFileSync(indexFile);
+      data = data.toString()
+      if (data) {
+         data = data.replace('<div id="root"></div>', `
+            <div id="root">${html}</div>
+            <script>
+                  window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+                  /</g,
+                  '\\u003c'
+                  )}
+            </script>           
+         `)
+         return data
+      } else return false
 }
 
 server.listen(PORT)

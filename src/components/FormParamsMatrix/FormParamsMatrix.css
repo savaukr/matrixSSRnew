@@ -2,3 +2,15 @@
     text-align: center;
     margin: 100px auto;
 }
+.input-field {
+    margin: 15px 0;
+}
+.input-field  input {
+    padding: 10px 20px;
+}
+.form_params button {
+    margin: 15px 0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: white;
+}

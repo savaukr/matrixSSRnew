@@ -1,5 +1,5 @@
 import {ADD_ROW, DELETE_ROW, INCREASE_AMOUNT,
-		MOUSE_OVER_CEIL, MOUSE_OUT, MOUSE_OVER_SUM} from './types'
+		MOUSE_OVER_CEIL, MOUSE_OUT, MOUSE_OVER_SUM, ADD_MATRIX} from './types'
 import {M, N} from '../config/config'
 import { IRowItem, IStateMatrixHelp,  ActionsTypes } from '../typesTS/typesTS'
 
@@ -51,7 +51,8 @@ export const matrixReducer = (state=initialState, action: ActionsTypes): IStateM
 			return { ...state, matrix: [...action.payload]}
 		case MOUSE_OVER_SUM: 
 			return { ...state, matrix: [...action.payload]}
-		
+		case ADD_MATRIX:
+			return {...state, matrix: [...action.payload]}
 
 		default: return state
 	}
