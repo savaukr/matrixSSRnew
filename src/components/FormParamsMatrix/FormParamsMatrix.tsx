@@ -27,6 +27,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
 	// }
     const sendHandler = (e:any) => {
         e.preventDefault()
+        console.log('event Form :',e)
         const saveParams = addParamsHandle()
         saveParams({M1: +form.M1, N1:+form.N1, X1:+form.X1})
         setMessage("form is sending")
@@ -34,7 +35,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
     return (
         <div className="form_params">
             <div>{message}</div>
-                <form onSubmit={sendHandler}>
+                <form id="form" onSubmit={sendHandler}>
                     <div className="input-field">
                         <label htmlFor="M">Стрічки:</label>
                             <input 
@@ -67,7 +68,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
                         onChange={changeHandler}
                         />
                     </div>
-                     <button onClick={sendHandler}>Відправити параметри матриці</button>
+                     <button className="sendParams" onClick={sendHandler}>Відправити параметри матриці</button>
                 </form>
         </div>
        
