@@ -1,5 +1,7 @@
 import React, {FC, useState} from 'react'
-import './FormParamsMatrix.css'
+//import './FormParamsMatrix.css'
+import * as styles from './FormParamsMatrix.module.css'
+const css = styles.default
 
 interface IFormParamsMatrixProps {
     addParamsHandle():any
@@ -25,10 +27,10 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
         setMessage("form is sending")
     }
     return (
-        <div className="form_params">
+        <div className={`${css.form_params}`}>
             <div>{message}</div>
                 <form id="form" onSubmit={sendHandler}>
-                    <div className="input-field">
+                    <div className={`${css.inputField}`}>
                         <label htmlFor="M">Стрічки:</label>
                             <input 
                             placeholder="Введіть кількість стрічок"
@@ -39,7 +41,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
                             onChange={changeHandler}
                             />
                     </div>
-                    <div className="input-field">
+                    <div className={`${css.inputField}`}>
                         <label htmlFor="N">Стовбці:</label>
                         <input 
                         placeholder="Введіть кількість стовпчиків"
@@ -49,7 +51,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
                         value={form.N1}
                         onChange={changeHandler}
                         />
-                    </div><div className="input-field">
+                    </div><div className={`${css.inputField}`}>
                         <label htmlFor="X">X1:</label>
                         <input 
                         placeholder="Введіть X"

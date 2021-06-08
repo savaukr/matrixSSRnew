@@ -1,0 +1,16 @@
+.form_params {
+    text-align: center;
+    margin: 100px auto;
+}
+.inputField {
+    margin: 15px 0;
+}
+.inputField  input {
+    padding: 10px 20px;
+}
+.form_params button {
+    margin: 15px 0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: white;
+}
