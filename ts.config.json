@@ -11,9 +11,7 @@
         "paths": {
             "App": ["src/"],
             "Pages/*": ["src/Pages/*"]
-        },
-        "noEmit": true,
-        "plugins": [{ "name": "typescript-plugin-css-modules" }]
+        }
     },
     "exclude": [
         "node_modules"

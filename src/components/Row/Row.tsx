@@ -7,8 +7,11 @@ import {
   mouseOut,
   mouseOverSum,
 } from "../../redux/actions";
-//import { X } from "../../config/config";
-import "./Row.css";
+import { X } from "../../config/config";
+//import "./Row.css";
+import * as styles from "./Row.module.css";
+const css = styles.default;
+
 import {
   IRowItem,
   IStateMatrix,
@@ -40,20 +43,21 @@ const Row: FC<IRowProps> = ({
   mouseOverSum,
   mouseOut,
 }) => {
+
   const getSumRow = (row: IAverage[]): number => {
     return row.reduce(
       (summa: number, item: IAverage): number => summa + item.amount,
       0
     );
   };
+
   const sum = getSumRow(arrRow);
 
   //   interface Event extends React.MouseEvent{
   //     dataset: {id:string};
   // }
   //event:Event ????????????????
-  const increaseAmountHandle = (event:any): void => {
-
+  const increaseAmountHandle = (event: any): void => {
     if (event.target.dataset.id[0] !== "f") {
       const row = +event.currentTarget.dataset.id.split("x")[0];
       const column = +event.currentTarget.dataset.id.split("x")[1];
@@ -113,7 +117,7 @@ const Row: FC<IRowProps> = ({
       const row = +event.target.dataset.id.split("x")[0];
       const column = +event.target.dataset.id.split("x")[1];
       const arr = matrix.concat();
-      let arrNear = findXNearAmount(arr, arr[row][column], params.X1);
+      let arrNear = findXNearAmount(arr, arr[row][column], params.X1 | X);
 
       arrNear.forEach((elem: IRowItem) => {
         const i = +elem.id.split("x")[0];
@@ -153,9 +157,9 @@ const Row: FC<IRowProps> = ({
     return (
       <div
         key={item.id}
-        className={`matrix-ceil ${footerClass || ""} ${
-          item.bright ? "bright" : ""
-        } ${item.part ? "part" : ""}`}
+        className={`${css.matrixCeil} ${footerClass ? css.footer : ""} ${
+          item.bright ? css.bright : ""
+        } ${item.part ? css.part : ""}`}
         data-part={`${Math.round((item.amount * 100) / sum)}%`}
         data-id={item.id}
         onClick={increaseAmountHandle}
@@ -176,13 +180,13 @@ const Row: FC<IRowProps> = ({
   });
 
   return (
-    <div className="matrix-row">
-      <div className="matrix-ceil sidebar-row">
+    <div className={`${css.matrixRow}`}>
+      <div className={`${css.matrixCeil} ${css.sidebarRow}`}>
         <DeleteRow footerClass={footerClass} ind={ind} />
       </div>
       {row}
       <div
-        className="matrix-ceil sum"
+        className={`${css.matrixCeil} ${css.sum}`}
         data-id={"sum"}
         data-ind={ind}
         onMouseOver={mouseOverSumHandler}
@@ -197,7 +201,7 @@ const Row: FC<IRowProps> = ({
 const mapStateToProps = (state: IStateMatrix) => {
   return {
     matrix: state.matrix.matrix,
-    params: state.params
+    params: state.params,
   };
 };
 

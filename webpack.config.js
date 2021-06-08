@@ -52,7 +52,7 @@ module.exports = (env) => {
     if (env === 'production') {
         modules.stylus.use.splice(2, 0, { loader: "postcss-loader" }),
         modules.stylusIsomorph.use.splice(2, 0, { loader: "postcss-loader" }),
-        modules.cssModules.use.splice(2, 0, { loader: "postcss-loader" })
+        modules.cssModules.use.splice(3, 0, { loader: "postcss-loader" })
     }
 
 
