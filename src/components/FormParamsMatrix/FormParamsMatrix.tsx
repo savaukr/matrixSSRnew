@@ -1,6 +1,5 @@
 import React, {FC, useState} from 'react'
 import './FormParamsMatrix.css'
-//import {useHttp} from '../../hooks/http.hook'
 
 interface IFormParamsMatrixProps {
     addParamsHandle():any
@@ -13,21 +12,14 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
         X1:''
 	})
     const [message, setMessage] = useState('')
-    //const {request} = useHttp()
 
     const changeHandler = (event:any) => {
 		setForm({...form, [event.target.name]: event.target.value})
 	}
 
-    // const sendHandler =  async () => {
-	// 	try {
-	// 		const data = await request(`/?M=${form.rows}&N=${form.columns}&X=${form.X}`, 'GET')
-	// 		setMessage(data.message)
-	// 	} catch (e) {}
-	// }
+  
     const sendHandler = (e:any) => {
         e.preventDefault()
-        console.log('event Form :',e)
         const saveParams = addParamsHandle()
         saveParams({M1: +form.M1, N1:+form.N1, X1:+form.X1})
         setMessage("form is sending")
