@@ -35,6 +35,23 @@ module.exports = (env) => {
             ],
             include: /\.module\.css$/
         },
+        cssModulesIsomorph: {
+            test: /\.css$/,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                },
+                { loader: "css-modules-typescript-loader"},
+                {
+                    loader: "css-loader",
+                    options: {
+                        importLoaders: 1,
+                        modules: true
+                    }
+                }
+            ],
+            include: /\.module\.css$/
+        },
         stylusIsomorph: {
             test: /\.css$/,
             use: [
