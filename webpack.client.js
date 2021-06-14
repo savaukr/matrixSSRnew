@@ -55,16 +55,16 @@ module.exports = (env, argv) => {
             new CleanWebpackPlugin(),
             new CopyPlugin({
                 patterns: [
-                  { from: "./src/Html/favicon.ico", to: "./" },
+                  { from: path.resolve(__dirname, "./src/Html/favicon.ico"), to: "./" },
                 ],
             }),
             new HtmlWebpackPlugin({
-                template: './src/Html/Browser.html', // Скармливаем наш HTML-темплейт
+                template: path.resolve(__dirname, './src/Html/Browser.html'), // Скармливаем наш HTML-темплейт
             }),
             new WebpackNotifierPlugin({ alwaysNotify: false }),
         ],
         entry: {
-            main: './src/Client.tsx', // Энтрипоинт-файл, с которого и начнется наша сборка
+            main: path.resolve(__dirname, './src/client.tsx'), // Энтрипоинт-файл, с которого и начнется наша сборка
         },
         output: {
             filename: watchMode ? 'assets/[name].[hash].js' : 'assets/[name].[chunkhash].js', // небольшое условие, т.к. WDS не будет работать с chunkhash
