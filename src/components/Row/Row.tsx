@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { connect } from "react-redux";
 import DeleteRow from "../DeleteRow/DeleteRow";
 import Ceil from '../Ceil/Ceil'
@@ -35,12 +35,12 @@ const Row: FC<IRowProps> = ({
   mouseOverSum
 }) => {
 
-  const getSumRow = (row: IAverage[]): number => {
+  const getSumRow = useCallback((row: IAverage[]): number => {
     return row.reduce(
       (summa: number, item: IAverage): number => summa + item.amount,
       0
     );
-  };
+  },[arrRow]);
 
   const sum = getSumRow(arrRow);
   

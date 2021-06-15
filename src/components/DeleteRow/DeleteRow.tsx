@@ -1,4 +1,4 @@
-import React, {FC} from 'react'
+import React, {FC, useCallback} from 'react'
 import {connect} from 'react-redux'
 import {deleteRow} from '../../redux/actions'
 import { ActionsTypes } from '../../typesTS/typesTS'
@@ -10,9 +10,9 @@ interface IDeleteRowProps {
 }
 
 const DeleteRow:FC<IDeleteRowProps> = ({footerClass, deleteRow, ind}) => {
-	const deleteHandle = (event:React.MouseEvent<HTMLButtonElement>) => {
+	const deleteHandle = useCallback((event:React.MouseEvent<HTMLButtonElement>) => {
         deleteRow(ind)
-    }
+    }, [ind])
 
     if (footerClass) {
         return (<></>)
