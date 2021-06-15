@@ -18,11 +18,13 @@ COPY .  ./
 
 RUN npm run build
 
+
+
 FROM nginx:1.16.0-alpine
 COPY --from=build /usr/src/app/dist  /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
-
-#EXPOSE 8080
-#CMD [ "node", "server.js" ]
+#RUN npm run serverdev
+#EXPOSE 80
+#CMD ["node", "./server/main.js"]

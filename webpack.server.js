@@ -29,7 +29,7 @@ module.exports = (env, argv) => {
             ],
         },
         entry: {
-            main: './src/Server.tsx', // Тут уже энтрипоинт сервера, который сделаем далее
+            main: './src/server.tsx', // Тут уже энтрипоинт сервера, который сделаем далее
         },
         output: {
             filename: '[name].js',
