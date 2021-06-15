@@ -5,6 +5,7 @@
 .matrixRow:last-child {
     margin-top:10px;
 }
+
 .matrixCeil {
     width:45px;
     height: 55px;
@@ -18,45 +19,13 @@
     font-size: 1.3rem;
     color: rgb(80,80,80);
 }
-.matrixCeil.part {
-    color: rgb(20,20,20);
-    position: relative;
-    z-index: 2;
-}
-.matrixCeil.part div:last-child {
-    position:absolute;
-    bottom: 0;
-    width:100%;
-    background-color:  rgba(80,80,80, 0.6);
-}
-/*
-.matrix-ceil.part::after {
-    content: '';
-    position:absolute;
-    bottom: 0;
-    text-align: center;
-    display: block;
-    width:100%;
-    height: attr(data-part);
-    color: rgb(255,255,255);
-    background-color:  rgba(80,80,80, 0.3);
-    
-}
-*/
-.bright {
-    background-color: rgb(80,80,80);
-    color: rgb(255,255,255)
-}
+
 .sum {
     min-width:80px;
     color:rgb(255,255,255);
     background-color: rgb(55,202,139);
 }
-.footer {
-    background-color: rgb(255,255,255);
-    color: rgb(80, 80, 80);
-    border-color: rgb(80, 80, 80);
-}
+
 .sidebarRow {
     width:80px;
     background-color: rgb(55,202,139);
