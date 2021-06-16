@@ -42,9 +42,9 @@ const Row: FC<IRowProps> = ({
     );
   },[arrRow]);
 
-  const sum = getSumRow(arrRow);
+  const sum = getSumRow(arrRow)
   
-  const mouseOverSumHandler = (event: any) => {
+  const mouseOverSumHandler = useCallback((event: any) => {
     if (event.target.dataset.ind) {
         const arr = matrix.concat();
         if (ind < arr.length) {
@@ -54,7 +54,7 @@ const Row: FC<IRowProps> = ({
         }
         mouseOverSum(arr);
     }
-  };
+  }, [arrRow]);
   
 
   const row = arrRow.map((item: any) => {
@@ -63,7 +63,7 @@ const Row: FC<IRowProps> = ({
       <Ceil key={item.id} item={item} sum={sum} footerClass={footerClass}/>
     );
   });
-
+  
   return (
     <div className={`${css.matrixRow}`}>
       <div className={`${css.matrixCeil} ${css.sidebarRow}`}>
@@ -94,4 +94,4 @@ const mapDispatchToProps = {
   mouseOverSum
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Row);
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Row));
