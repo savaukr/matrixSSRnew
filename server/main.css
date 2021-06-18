@@ -18,6 +18,40 @@
 .addRowWrap--23EvB button:hover {
     background-color: rgb(24, 87, 87);
 }
+.matrixCeil--3qabq {
+    width:45px;
+    height: 55px;
+    margin:1px;
+    padding: 0 10px;
+    border: 1px solid rgb(255,255,255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: rgb(80,80,80);
+}
+.matrixCeil--3qabq.part--2y33u {
+    color: rgb(20,20,20);
+    position: relative;
+    z-index: 2;
+}
+.matrixCeil--3qabq.part--2y33u div:last-child {
+    position:absolute;
+    bottom: 0;
+    width:100%;
+    background-color:  rgba(80,80,80, 0.6);
+}
+.bright--JZRK1 {
+    background-color: rgb(80,80,80);
+    color: rgb(255,255,255)
+}
+
+.footer--3BAP2 {
+    background-color: rgb(255,255,255);
+    color: rgb(80, 80, 80);
+    border-color: rgb(80, 80, 80);
+}
 .matrixRow--39Z-D {
     display:flex;
     justify-content: center;
@@ -25,6 +59,7 @@
 .matrixRow--39Z-D:last-child {
     margin-top:10px;
 }
+
 .matrixCeil--2rmM2 {
     width:45px;
     height: 55px;
@@ -38,45 +73,13 @@
     font-size: 1.3rem;
     color: rgb(80,80,80);
 }
-.matrixCeil--2rmM2.part--2A17f {
-    color: rgb(20,20,20);
-    position: relative;
-    z-index: 2;
-}
-.matrixCeil--2rmM2.part--2A17f div:last-child {
-    position:absolute;
-    bottom: 0;
-    width:100%;
-    background-color:  rgba(80,80,80, 0.6);
-}
-/*
-.matrix-ceil.part::after {
-    content: '';
-    position:absolute;
-    bottom: 0;
-    text-align: center;
-    display: block;
-    width:100%;
-    height: attr(data-part);
-    color: rgb(255,255,255);
-    background-color:  rgba(80,80,80, 0.3);
-    
-}
-*/
-.bright--3_F4x {
-    background-color: rgb(80,80,80);
-    color: rgb(255,255,255)
-}
+
 .sum--oxa6f {
     min-width:80px;
     color:rgb(255,255,255);
     background-color: rgb(55,202,139);
 }
-.footer--nl9Ae {
-    background-color: rgb(255,255,255);
-    color: rgb(80, 80, 80);
-    border-color: rgb(80, 80, 80);
-}
+
 .sidebarRow--Be181 {
     width:80px;
     background-color: rgb(55,202,139);
