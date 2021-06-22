@@ -9,31 +9,76 @@ import {
   ADD_MATRIX
 } from "../redux/types";
 
-// interface for component
-export interface IRowItem {
-  amount: number;
-  bright: boolean;
+//interface for perfomance
+export interface ICeil {
   id: string;
-  part: boolean;
+  amount: number;
+}
+export interface ICeilsById {
+  id:ICeil;
+}
+export interface ICeils{
+  allIds: string[];
+  byId:  ICeilsById | {};
 }
 
-export interface IStateMatrixHelp {
-  matrix: IRowItem[][];
+export interface IRow {
+  id: string;
+  ceils: string[] | [] ;
 }
+export interface IRowsById {
+  id: IRow;
+}
+export interface IRows {
+  allIds: string[];
+  byId:  IRowsById; 
+} 
+
+export interface IMatrix {
+  bright: string[] | [];
+  part: string[] | [];
+  ceils: ICeils;
+  rows: IRows;
+}
+export interface IMatrixRow {
+  ceils: ICeils;
+  rows: IRows;
+}
+export interface IStateMatrix {
+  matrix: IMatrix;
+  params: IStateParamsHelp;
+}
+// interface for component
+// export interface IRowItem {
+//   amount: number;
+//   bright: boolean;
+//   id: string;
+//   part: boolean;
+// }
+
+// export interface IRow{
+//   numRow: number,
+//   row : IRowItem
+// }
+
+// export interface IStateMatrixHelp {
+//   matrix: IRowItem[][];
+// }
+// export interface IStateMatrix {
+//   matrix: IStateMatrixHelp;
+//   params: IStateParamsHelp;
+// }
+
+export interface IAverage {
+  id: string;
+  amount: number;
+}
+//interface for params 
 export interface IStateParamsHelp {
   M1:number | null;
   N1:number | null;
   X1:number | null;
 
-}
-
-export interface IStateMatrix {
-  matrix: IStateMatrixHelp;
-  params: IStateParamsHelp;
-}
-export interface IAverage {
-  id: string;
-  amount: number;
 }
 
 //interface for action
@@ -56,15 +101,15 @@ interface IIncreaseAmount {
 }
 interface IMouseOverCeil {
   type: typeof MOUSE_OVER_CEIL;
-  payload: IRowItem[][];
+  payload: string;
 }
 interface IMouseOut {
   type: typeof MOUSE_OUT;
-  payload: IRowItem[][];
+  payload: string;
 }
 interface IMouseOverSum {
   type: typeof MOUSE_OVER_SUM;
-  payload: IRowItem[][];
+  payload:number;
 }
 
 interface IAddParams {
@@ -73,7 +118,7 @@ interface IAddParams {
 }
 interface IAddMatrix {
   type: typeof ADD_MATRIX;
-  payload: IRowItem[][]
+  payload: IMatrix
 }
 
 export type ActionsTypes =

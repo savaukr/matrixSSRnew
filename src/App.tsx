@@ -4,31 +4,32 @@ import { AddRow } from "./components/AddRow/AddRow";
 import { addRow, addParams, addMatrix } from "./redux/actions";
 import Matrix from "./components/Matrix/Matrix";
 import {FormParamsMatrix} from './components/FormParamsMatrix/FormParamsMatrix'
-import { ActionsTypes, IRowItem, IStateMatrix, IStateParamsHelp } from "./typesTS/typesTS";
-import { getMatrix } from "./redux/matrixReducer";
+import { ActionsTypes, IStateParamsHelp, IMatrixRow, IMatrix, IStateMatrix } from "./typesTS/typesTS";
+import { getMatrix } from "./matrixService/matrixService";
 
 
 interface IAppProps {
-  addRow(row: IRowItem[]): ActionsTypes;
-  addParams(params: IStateParamsHelp): ActionsTypes;
-  addMatrix(newMatrix: IRowItem[][]): ActionsTypes;
-  matrix: IRowItem[][];
+  // addRow(row: IMatrixRow): ActionsTypes;
+  // addParams(params: IStateParamsHelp): ActionsTypes;
+  // addMatrix(newMatrix: IMatrix): ActionsTypes;
+  matrix: IMatrix;
   params: IStateParamsHelp;
 }
 
-const App: FC<IAppProps> = ({ addRow, addParams, addMatrix, matrix }): any => {
+const App: FC<IAppProps> = ({ matrix, params }): any => {
   
-  function getMatrixRow(columns:number, i: number) {
-    const row = [];
-    for (let j = 0; j < columns; j++) {
-      const amount = Math.floor(Math.random() * 1001);
-      row[j] = { id: `${i}x${j}`, amount, bright: false, part: false };
-    }
-    return row;
-  }
+  // function getMatrixRow(columns:number, i: number) {
+  //   const row = [];
+  //   for (let j = 0; j < columns; j++) {
+  //     const amount = Math.floor(Math.random() * 1001);
+  //     row[j] = { id: `${i}x${j}`, amount, bright: false, part: false };
+  //   }
+  //   return row;
+  // }
 
   const addRowHandle = (event: React.MouseEvent<HTMLButtonElement>) => {
-    addRow(getMatrixRow( matrix[0].length, matrix.length));
+    // addRow(getMatrixRow();
+    console.log('add row')
   };
 
   const addParamsHandle = ():any => {
@@ -42,7 +43,7 @@ const App: FC<IAppProps> = ({ addRow, addParams, addMatrix, matrix }): any => {
   }
 
   try {    
-    if (!matrix.length) {
+    if (!matrix.rows.allIds.length)  {
       return (
         <div className="container">
             <FormParamsMatrix addParamsHandle={addParamsHandle}/>
@@ -51,7 +52,7 @@ const App: FC<IAppProps> = ({ addRow, addParams, addMatrix, matrix }): any => {
     }
     return (
       <div className="container">
-        <Matrix />
+        <Matrix matrix={matrix} />
         <AddRow addRowHandle={addRowHandle} />
       </div>
     );
@@ -62,12 +63,12 @@ const App: FC<IAppProps> = ({ addRow, addParams, addMatrix, matrix }): any => {
 
 const mapStateToProps = (state: IStateMatrix) => {
   return {
-    matrix: state.matrix.matrix,
+    matrix: state.matrix,
     params: state.params
   };
 };
 
 const mapDispatchToProps = {
-  addRow, addParams, addMatrix
+  // addRow, addParams, addMatrix
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

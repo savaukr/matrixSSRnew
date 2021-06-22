@@ -1,8 +1,8 @@
 import {ADD_ROW, DELETE_ROW, INCREASE_AMOUNT,
 		MOUSE_OVER_CEIL, MOUSE_OUT, MOUSE_OVER_SUM, ADD_PARAMS, ADD_MATRIX} from './types';
-import { ActionsTypes, IRowItem, IStateParamsHelp } from '../typesTS/typesTS'
+import { ActionsTypes, IMatrix, IMatrixRow, IStateParamsHelp } from '../typesTS/typesTS'
 
-export  function addRow(row: IRowItem[]): ActionsTypes {
+export  function addRow(row: IMatrixRow): ActionsTypes {
 	return {
 		type: ADD_ROW,
 		payload: row
@@ -21,23 +21,23 @@ export function increaseAmount(row:number, column:number):ActionsTypes {
 		payload: {row, column}
 	}
 }
-export function mouseOverCeil(arr: IRowItem[][]): ActionsTypes {
+export function mouseOverCeil(newState: IMatrix): ActionsTypes {
 	return {
 		type: MOUSE_OVER_CEIL,
-		payload: arr
+		payload: newState
 	}
 }
-export function mouseOut(arr:IRowItem[][]): ActionsTypes {
+export function mouseOut(newState: IMatrix): ActionsTypes {
 	return {
 		type: MOUSE_OUT,
-		payload: arr
+		payload: newState
 	}
 }
 
-export function mouseOverSum(arr: IRowItem[][]): ActionsTypes {
+export function mouseOverSum(newState: IMatrix): ActionsTypes {
 	return {
 		type: MOUSE_OVER_SUM,
-		payload: arr
+		payload: newState
 	}
 }
 
@@ -47,7 +47,7 @@ export function addParams(params:IStateParamsHelp): ActionsTypes {
 		payload: params
 	}
 }
-export function addMatrix(newMatrix: IRowItem[][]): ActionsTypes {
+export function addMatrix(newMatrix: IMatrix): ActionsTypes {
 	return {
 		type: ADD_MATRIX,
 		payload: newMatrix

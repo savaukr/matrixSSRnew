@@ -1,12 +1,11 @@
 import React, { useEffect, useState, FC } from "react";
 import { connect } from "react-redux";
 import Row from "../Row/Row";
+import { getAverages } from "../../matrixService/matrixService";
 
 import {
-  IRowItem,
-  IAverage,
-  IStateMatrix,
-  IStateMatrixHelp,
+  IMatrix,
+  ICeil
 } from "../../typesTS/typesTS";
 
 //import "./Matrix.css";
@@ -14,40 +13,33 @@ import * as styles from './Matrix.module.css'
 const css = styles.default;
 
 interface IMatrixProps {
-  matrix: IRowItem[][];
+  matrix: IMatrix;
 }
 
 const Matrix: FC<IMatrixProps> = ({ matrix }) => {
   const [matrixJSX, setMatrixJSX] = useState();
 
-  const getAverages = (arr: IRowItem[][]): IAverage[] => {
-    const arrAverage = [];
-    const rowCount = arr.length || 0;
-    const columnCount = arr[0].length || 0;
-    for (let j = 0; j < columnCount; j++) {
-      let sum = 0;
-      for (let i = 0; i < rowCount; i++) {
-        sum += arr[i][j]["amount"];
-      }
-      arrAverage[j] = { id: `footer${j}`, amount: Math.ceil(sum / rowCount) };
-    }
-    return arrAverage;
-  };
+  
 
-  function getMatrixJsx(arr: IRowItem[][]): any {
+  function getMatrixJsx(matrix:IMatrix): any {
     let table = [];
-
-    for (let i = 0; i < arr.length; i++) {
-      table[i] = <Row key={i} arrRow={arr[i]} ind={i} footerClass={""} />;
-    }
-    table[arr.length] = (
+    matrix.rows.allIds.forEach((rowId: string) => {
+      const oneRow: ICeil[] = matrix.rows.byId[rowId].ceils.map( (ceilId:string) =>  matrix.ceils.byId[ceilId] )
+      table[rowId] = <Row 
+        key={rowId}
+        rowId = {rowId}
+        oneRow = {oneRow}
+        footerClass = {''}
+      />
+    })
+    table[matrix.rows.allIds.length] = (
       <Row
-        key={arr.length}
-        ind={arr.length}
-        arrRow={getAverages(arr)}
+        key={matrix.rows.allIds.length}
+        rowId = {`${matrix.rows.allIds.length}`}
+        oneRow = {getAverages(matrix)}
         footerClass={"footer"}
       />
-    );
+    )
     return table;
   }
 
@@ -55,11 +47,12 @@ const Matrix: FC<IMatrixProps> = ({ matrix }) => {
     setMatrixJSX(getMatrixJsx(matrix));
   }, [matrix]);
 
+
   return (
     <div className={`${css.matrixWrap}`}>
       <div className={`${css.matrixContent}`}>
         <h4>
-          Matrix {matrix.length}x{matrix[0].length}
+          Matrix {matrix.rows.allIds.length}x{matrix.rows.byId[0].ceils.length}
         </h4>
         <div className={`${css.matrixHeader}`}>Сума по рядку</div>
         {matrixJSX}
@@ -68,9 +61,9 @@ const Matrix: FC<IMatrixProps> = ({ matrix }) => {
   );
 };
 
-const mapStateToProps = (state: IStateMatrix): IStateMatrixHelp => {
+const mapStateToProps = (state: IMatrix): IMatrix => {
   return {
-    matrix: state.matrix.matrix,
+    ...state
   };
 };
 

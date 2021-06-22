@@ -6,7 +6,7 @@ import { ActionsTypes } from '../../typesTS/typesTS'
 interface IDeleteRowProps {
     footerClass:string;
     deleteRow(ind:number):ActionsTypes;
-    ind:number;
+    ind:string;
 }
 
 const DeleteRow:FC<IDeleteRowProps> = ({footerClass, deleteRow, ind}) => {

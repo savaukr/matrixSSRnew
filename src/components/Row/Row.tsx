@@ -1,10 +1,19 @@
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import DeleteRow from "../DeleteRow/DeleteRow";
 import Ceil from '../Ceil/Ceil'
+import { getSumOfRow } from "../../matrixService/matrixService";
 
 import {
-   mouseOverSum
+  ActionsTypes,
+  IAverage,
+  ICeil,
+  IMatrix,
+} from "../../typesTS/typesTS";
+
+
+import {
+  mouseOverSum
 } from "../../redux/actions";
 
 
@@ -12,68 +21,49 @@ import {
 import * as styles from "./Row.module.css";
 const css = styles.default;
 
-import {
-  IRowItem,
-  ActionsTypes,
-  IAverage,
-  IStateMatrix
-} from "../../typesTS/typesTS";
 
 interface IRowProps {
-  matrix: IRowItem[][];
-  arrRow: IAverage[];
+  rowId:string;
+  oneRow: ICeil[];
   footerClass: string;
-  ind: number;
-  mouseOverSum(arr: IRowItem[][]): ActionsTypes;
+  mouseOverSum(matrix: IMatrix): ActionsTypes;
 }
 
 const Row: FC<IRowProps> = ({
-  matrix,
-  arrRow,
+  rowId,
+  oneRow,
   footerClass,
-  ind,
   mouseOverSum
 }) => {
 
-  const getSumRow = useCallback((row: IAverage[]): number => {
-    return row.reduce(
-      (summa: number, item: IAverage): number => summa + item.amount,
-      0
-    );
-  },[arrRow]);
+  const [part, setPart] = useState(false)
 
-  const sum = getSumRow(arrRow)
+  const getSumRow = useCallback( getSumOfRow, [oneRow] )
+
+  const sum:number = getSumRow(oneRow)
   
-  const mouseOverSumHandler = useCallback((event: any) => {
-    if (event.target.dataset.ind) {
-        const arr = matrix.concat();
-        if (ind < arr.length) {
-        arr[ind].forEach((item) => {
-            item.part = !item.part;
-        });
-        }
-        mouseOverSum(arr);
-    }
-  }, [arrRow]);
+  const mouseOverSumHandler = (event: any) => {
+      setPart((prevPart) => !prevPart )
+  }
   
 
-  const row = arrRow.map((item: any) => {
+  const row = oneRow.map((item: any) => {
     
     return (
-      <Ceil key={item.id} item={item} sum={sum} footerClass={footerClass}/>
+      <Ceil key={item.id} item={item} sum={sum} footerClass={footerClass} part={part}/>
     );
   });
   
   return (
     <div className={`${css.matrixRow}`}>
       <div className={`${css.matrixCeil} ${css.sidebarRow}`}>
-        <DeleteRow footerClass={footerClass} ind={ind} />
+        <DeleteRow footerClass={footerClass} ind={rowId} />
       </div>
       {row}
       <div
         className={`${css.matrixCeil} ${css.sum}`}
         data-id={"sum"}
-        data-ind={ind}
+        data-ind={rowId}
         onMouseOver={mouseOverSumHandler}
         onMouseOut={mouseOverSumHandler}
       >
@@ -83,9 +73,9 @@ const Row: FC<IRowProps> = ({
   );
 };
 
-const mapStateToProps = (state: IStateMatrix) => {
+const mapStateToProps = (matrix: IMatrix) => {
   return {
-    matrix: state.matrix.matrix,
+    matrix
   };
 };
 
