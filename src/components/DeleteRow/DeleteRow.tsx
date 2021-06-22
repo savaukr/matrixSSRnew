@@ -11,7 +11,7 @@ interface IDeleteRowProps {
 
 const DeleteRow:FC<IDeleteRowProps> = ({footerClass, deleteRow, ind}) => {
 	const deleteHandle = useCallback((event:React.MouseEvent<HTMLButtonElement>) => {
-        deleteRow(ind)
+        deleteRow(+ind)
     }, [ind])
 
     if (footerClass) {

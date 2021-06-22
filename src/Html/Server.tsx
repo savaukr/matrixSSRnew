@@ -1,10 +1,10 @@
 import React from 'react'
-import {IStateMatrixHelp, IStateParamsHelp} from '../typesTS/typesTS'
+import {IMatrix, IStateParamsHelp} from '../typesTS/typesTS'
 
 interface Html {
     scripts: Array<string>,
     preloadedState: {
-        matrix: IStateMatrixHelp;
+        matrix: IMatrix;
         params: IStateParamsHelp
     }
 }

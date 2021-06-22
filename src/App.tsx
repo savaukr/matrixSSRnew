@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { connect } from "react-redux";
 import { AddRow } from "./components/AddRow/AddRow";
-import { addRow, addParams, addMatrix } from "./redux/actions";
+import {  addParams, addMatrix } from "./redux/actions";
 import Matrix from "./components/Matrix/Matrix";
 import {FormParamsMatrix} from './components/FormParamsMatrix/FormParamsMatrix'
-import { ActionsTypes, IStateParamsHelp, IMatrixRow, IMatrix, IStateMatrix } from "./typesTS/typesTS";
+import {  IStateParamsHelp, IMatrix, IStateMatrix } from "./typesTS/typesTS";
 import { getMatrix } from "./matrixService/matrixService";
 
 
