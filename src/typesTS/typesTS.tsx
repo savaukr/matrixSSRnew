@@ -15,19 +15,19 @@ export interface ICeil {
   amount: number;
 }
 export interface ICeilsById {
-  id:ICeil;
+  [key:string]:ICeil;
 }
 export interface ICeils{
   allIds: string[];
-  byId:  ICeilsById | {};
+  byId:  ICeilsById;
 }
 
 export interface IRow {
   id: string;
-  ceils: string[] | [] ;
+  ceils: string[] ;
 }
 export interface IRowsById {
-  id: IRow;
+  [key:string]: IRow;
 }
 export interface IRows {
   allIds: string[];
@@ -36,7 +36,6 @@ export interface IRows {
 
 export interface IMatrix {
   bright: string[] | [];
-  part: string[] | [];
   ceils: ICeils;
   rows: IRows;
 }

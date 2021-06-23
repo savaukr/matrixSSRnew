@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useMemo, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import DeleteRow from "../DeleteRow/DeleteRow";
 import Ceil from '../Ceil/Ceil'
@@ -6,8 +6,6 @@ import { getSumOfRow } from "../../matrixService/matrixService";
 
 import {
   ActionsTypes,
-  IAverage,
-  ICeil,
   IMatrix,
 } from "../../typesTS/typesTS";
 
@@ -24,7 +22,7 @@ const css = styles.default;
 
 interface IRowProps {
   rowId:string;
-  oneRow: ICeil[];
+  oneRow: any;
   footerClass: string;
   mouseOverSum(matrix: IMatrix): ActionsTypes;
 }
@@ -38,13 +36,13 @@ const Row: FC<IRowProps> = ({
 
   const [part, setPart] = useState(false)
 
-  const getSumRow = useCallback( getSumOfRow, [oneRow] )
+  // const getSumRow = useCallback( getSumOfRow, [oneRow] )
+  // const sum:number = getSumRow(oneRow)
 
-  const sum:number = getSumRow(oneRow)
-  
-  const mouseOverSumHandler = (event: any) => {
-      setPart((prevPart) => !prevPart )
-  }
+  const  sum:number = useMemo( () => getSumOfRow(oneRow), [oneRow])
+   
+  const mouseOverSumHandler = useCallback ( (event: any) => {
+      setPart((prevPart) => !prevPart )}, [part])
   
 
   const row = oneRow.map((item: any) => {

@@ -1,22 +1,23 @@
 import React, { FC } from "react";
 import { connect } from "react-redux";
 import { AddRow } from "./components/AddRow/AddRow";
-import {  addParams, addMatrix } from "./redux/actions";
+import {  addParams, addMatrix, addRow } from "./redux/actions";
 import Matrix from "./components/Matrix/Matrix";
 import {FormParamsMatrix} from './components/FormParamsMatrix/FormParamsMatrix'
 import {  IStateParamsHelp, IMatrix, IStateMatrix } from "./typesTS/typesTS";
-import { getMatrix } from "./matrixService/matrixService";
+import { getMatrix, addNewRow } from "./matrixService/matrixService";
+import { ActionsTypes } from './typesTS/typesTS'
 
 
 interface IAppProps {
-  // addRow(row: IMatrixRow): ActionsTypes;
-  // addParams(params: IStateParamsHelp): ActionsTypes;
-  // addMatrix(newMatrix: IMatrix): ActionsTypes;
+  addRow(matrix: IMatrix): ActionsTypes;
+  addParams(params: IStateParamsHelp): ActionsTypes;
+  addMatrix(newMatrix: IMatrix): ActionsTypes;
   matrix: IMatrix;
   params: IStateParamsHelp;
 }
 
-const App: FC<IAppProps> = ({ matrix, params }): any => {
+const App: FC<IAppProps> = ({ matrix, params, addRow, addMatrix, addParams}): any => {
   
   // function getMatrixRow(columns:number, i: number) {
   //   const row = [];
@@ -28,7 +29,7 @@ const App: FC<IAppProps> = ({ matrix, params }): any => {
   // }
 
   const addRowHandle = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // addRow(getMatrixRow();
+    addRow(addNewRow(matrix));
     console.log('add row')
   };
 
@@ -69,6 +70,8 @@ const mapStateToProps = (state: IStateMatrix) => {
 };
 
 const mapDispatchToProps = {
-  // addRow, addParams, addMatrix
+  addRow,
+  addParams,
+  addMatrix
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

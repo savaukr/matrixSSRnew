@@ -1,11 +1,11 @@
 import {ADD_ROW, DELETE_ROW, INCREASE_AMOUNT,
 		MOUSE_OVER_CEIL, MOUSE_OUT, MOUSE_OVER_SUM, ADD_PARAMS, ADD_MATRIX} from './types';
-import { ActionsTypes, IMatrix, IMatrixRow, IStateParamsHelp } from '../typesTS/typesTS'
+import { ActionsTypes, IMatrix, IStateParamsHelp } from '../typesTS/typesTS'
 
-export  function addRow(row: IMatrixRow): ActionsTypes {
+export  function addRow(matrix: IMatrix): ActionsTypes {
 	return {
 		type: ADD_ROW,
-		payload: row
+		payload: matrix
 	}
 }
 

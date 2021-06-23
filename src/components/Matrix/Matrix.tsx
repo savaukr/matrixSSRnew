@@ -1,8 +1,7 @@
-import React, { useEffect, useState, FC } from "react";
+import React, { useEffect, useState, FC, useCallback} from "react";
 import { connect } from "react-redux";
 import Row from "../Row/Row";
 import { getAverages } from "../../matrixService/matrixService";
-
 import {
   IMatrix,
   ICeil
@@ -19,13 +18,13 @@ interface IMatrixProps {
 const Matrix: FC<IMatrixProps> = ({ matrix }) => {
   const [matrixJSX, setMatrixJSX] = useState();
 
-  
+const averages = useCallback( (matrix) => getAverages(matrix), [matrix])
 
   function getMatrixJsx(matrix:IMatrix): any {
-    let table = [];
+    let table:any[]= [];
     matrix.rows.allIds.forEach((rowId: string) => {
       const oneRow: ICeil[] = matrix.rows.byId[rowId].ceils.map( (ceilId:string) =>  matrix.ceils.byId[ceilId] )
-      table[rowId] = <Row 
+      table[+rowId] = <Row 
         key={rowId}
         rowId = {rowId}
         oneRow = {oneRow}
@@ -36,7 +35,7 @@ const Matrix: FC<IMatrixProps> = ({ matrix }) => {
       <Row
         key={matrix.rows.allIds.length}
         rowId = {`${matrix.rows.allIds.length}`}
-        oneRow = {getAverages(matrix)}
+        oneRow = { averages(matrix) }
         footerClass={"footer"}
       />
     )
