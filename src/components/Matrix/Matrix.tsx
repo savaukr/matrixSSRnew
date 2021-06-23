@@ -6,6 +6,7 @@ import {
   IMatrix,
   ICeil
 } from "../../typesTS/typesTS";
+import { maxRowId } from "../../config/config";
 
 //import "./Matrix.css";
 import * as styles from './Matrix.module.css'
@@ -31,10 +32,10 @@ const averages = useCallback( (matrix) => getAverages(matrix), [matrix])
         footerClass = {''}
       />
     })
-    table[matrix.rows.allIds.length] = (
+    table[maxRowId] = (
       <Row
-        key={matrix.rows.allIds.length}
-        rowId = {`${matrix.rows.allIds.length}`}
+        key={maxRowId}
+        rowId = {`${maxRowId}`}
         oneRow = { averages(matrix) }
         footerClass={"footer"}
       />
@@ -51,7 +52,7 @@ const averages = useCallback( (matrix) => getAverages(matrix), [matrix])
     <div className={`${css.matrixWrap}`}>
       <div className={`${css.matrixContent}`}>
         <h4>
-          Matrix {matrix.rows.allIds.length}x{matrix.rows.byId[0].ceils.length}
+          Matrix {matrix.rows.allIds.length}x{matrix.rows.byId[matrix.rows.allIds[0]].ceils.length}
         </h4>
         <div className={`${css.matrixHeader}`}>Сума по рядку</div>
         {matrixJSX}

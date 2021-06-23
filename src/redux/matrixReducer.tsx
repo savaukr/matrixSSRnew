@@ -1,12 +1,13 @@
 import {ADD_ROW,
 		ADD_MATRIX,
-	// DELETE_ROW, INCREASE_AMOUNT,
+		DELETE_ROW,
+	// INCREASE_AMOUNT,
 	// MOUSE_OVER_CEIL, MOUSE_OUT, MOUSE_OVER_SUM, 
 } from './types'
 import {M, N} from '../config/config'
 import {  IMatrix, ActionsTypes } from '../typesTS/typesTS'
 import {getMatrix,
-	//  deleteRow
+	   deleteRow
 } from '../matrixService/matrixService'
 
 
@@ -20,8 +21,10 @@ export const matrixReducer = (state=initialState, action: ActionsTypes): IMatrix
 	switch (action.type) {
 		case ADD_ROW: 
 			return { ...state, ...action.payload}
-		// case DELETE_ROW:
-		// 	return {...state, ...deleteRow(action.payload, {...state.rows}, {...state.ceils})}
+		case DELETE_ROW: 
+		    const rows = {...state.rows} 
+			const ceils = {...state.ceils}
+			return {...state, ...deleteRow(action.payload, rows, ceils)}
 		// case INCREASE_AMOUNT: 
 		// 	const newCeils = {...state.ceils}
 		// 	newCeils.byId[action.payload].amount =  newCeils.byId[action.payload].amount+1

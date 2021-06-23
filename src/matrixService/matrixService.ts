@@ -2,11 +2,10 @@ import { IMatrix, IMatrixRow, ICeils, ICeil, IRows,  IAverage } from './../types
 
 function addNewRow(state :IMatrix) {
     const matrix = {...state}
-    console.log('matrix:', matrix)
     const rowCount:number = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
-    const columnCount:number = matrix.rows.allIds ? matrix.rows.byId['0'].ceils.length : 0;
-    const rowId = `${rowCount}`
-
+    const columnCount:number = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;
+    const lastrowId:string = matrix.rows.allIds[rowCount-1]
+    const rowId:string = `${+lastrowId+1}`
     const ceilsIdForRow = []
     for (let j =0; j < columnCount; j++) {
         const ceilId:string = `${rowCount}x${j}`
@@ -51,21 +50,25 @@ function getMatrix( N:number, M:number):IMatrix {
     }
 }
 
-function deleteRow(ind:string, rows:any, ceils:any):IMatrixRow {
-    const arrCeilsId = rows?.byId[ind].ceils
+function deleteRow(ind:number, rows:any, ceils:any):IMatrixRow {
+    const rowId = `${ind}`
+    const arrCeilsId = rows.byId[rowId].ceils
+    rows.allIds.splice(rows.allIds.indexOf(rowId), 1)
+    delete rows.byId[rowId]
     arrCeilsId.forEach((item:string) => {
+        ceils.allIds.splice(ceils.allIds.indexOf(item),1)
         delete ceils.byId[item]
     })
-    delete rows.byId[ind]
     return {
-        rows, ceils
+       rows: rows,
+       ceils: ceils
     }
 }
 
 const getAverages = (matrix: IMatrix): IAverage[] => {
     let arrAverage:IAverage[]=[]
     const rowCount = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
-    const columnCount = matrix.rows.allIds ? matrix.rows.byId['0'].ceils.length : 0;
+    const columnCount = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;
     for (let j=0; j < columnCount; j++) {
         let sum:number = 0
         matrix.rows.allIds.forEach((rowId:string) => {

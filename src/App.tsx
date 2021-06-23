@@ -19,18 +19,8 @@ interface IAppProps {
 
 const App: FC<IAppProps> = ({ matrix, params, addRow, addMatrix, addParams}): any => {
   
-  // function getMatrixRow(columns:number, i: number) {
-  //   const row = [];
-  //   for (let j = 0; j < columns; j++) {
-  //     const amount = Math.floor(Math.random() * 1001);
-  //     row[j] = { id: `${i}x${j}`, amount, bright: false, part: false };
-  //   }
-  //   return row;
-  // }
-
   const addRowHandle = (event: React.MouseEvent<HTMLButtonElement>) => {
     addRow(addNewRow(matrix));
-    console.log('add row')
   };
 
   const addParamsHandle = ():any => {
