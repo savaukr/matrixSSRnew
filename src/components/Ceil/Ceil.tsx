@@ -31,7 +31,6 @@ const Ceil: FC<ICeilProps> = ({
   mouseOverCeil,
   mouseOut,
 }) => {
-  console.log('ceilId:', item.id)
   const stylesHeight = {
     height: Math.round((item.amount * 100) / sum) * 2 + "%",
   };

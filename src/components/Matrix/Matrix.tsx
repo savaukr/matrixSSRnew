@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FC, useCallback } from "react";
+import React, { useEffect, useState, FC, useMemo} from "react";
 import { connect } from "react-redux";
 import Row from "../Row/Row";
 import { getAverages } from "../../matrixService/matrixService";
@@ -16,8 +16,9 @@ interface IMatrixProps {
 const Matrix: FC<IMatrixProps> = ({ matrix }) => {
   const [matrixJSX, setMatrixJSX] = useState();
 
-  const averages = useCallback((matrix) => getAverages(matrix), [matrix]);
-
+  //const averages = useCallback((matrix) => getAverages(matrix), [matrix.ceils]);
+  const averages = useMemo(() => getAverages(matrix), [matrix.ceils])
+  
   function getMatrixJsx(matrix: IMatrix): any {
     let table: any[] = [];
     matrix.rows.allIds.forEach((rowId: string) => {
@@ -34,11 +35,11 @@ const Matrix: FC<IMatrixProps> = ({ matrix }) => {
         />
       );
     });
-    table[maxRowId] = (
+    table[maxRowId] =  (
       <Row
         key={maxRowId}
         rowId={`${maxRowId}`}
-        oneRow={averages(matrix)}
+        oneRow={averages}
         footerClass={"footer"}
         bright={[]}
       />

@@ -70,6 +70,7 @@ function deleteRow(ind:number, rows:any, ceils:any):IMatrixRow {
 }
 
 const getAverages = (matrix: IMatrix): IAverage[] => {
+    console.log('getAverage')
     let arrAverage:IAverage[]=[]
     const rowCount = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
     const columnCount = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;

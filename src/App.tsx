@@ -14,10 +14,10 @@ interface IAppProps {
   addParams(params: IStateParamsHelp): ActionsTypes;
   addMatrix(newMatrix: IMatrix): ActionsTypes;
   matrix: IMatrix;
-  params: IStateParamsHelp;
+  //params: IStateParamsHelp;
 }
 
-const App: FC<IAppProps> = ({ matrix, params, addRow, addMatrix, addParams}): any => {
+const App: FC<IAppProps> = ({ matrix, addRow, addMatrix, addParams}): any => {
   
   const addRowHandle = (event: React.MouseEvent<HTMLButtonElement>) => {
     addRow(addNewRow(matrix));
@@ -55,7 +55,7 @@ const App: FC<IAppProps> = ({ matrix, params, addRow, addMatrix, addParams}): an
 const mapStateToProps = (state: IStateMatrix) => {
   return {
     matrix: state.matrix,
-    params: state.params
+   // params: state.params
   };
 };
 
