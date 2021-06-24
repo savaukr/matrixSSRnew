@@ -15,22 +15,22 @@ export function deleteRow(ind:number): ActionsTypes {
 		payload: ind
 	}
 }
-export function increaseAmount(row:number, column:number):ActionsTypes {
+export function increaseAmount(ceilId:string):ActionsTypes {
 	return {
 		type: INCREASE_AMOUNT,
-		payload: {row, column}
+		payload: ceilId
 	}
 }
-export function mouseOverCeil(newState: IMatrix): ActionsTypes {
+export function mouseOverCeil(ceilId:string): ActionsTypes {
 	return {
 		type: MOUSE_OVER_CEIL,
-		payload: newState
+		payload: ceilId
 	}
 }
-export function mouseOut(newState: IMatrix): ActionsTypes {
+export function mouseOut(ceilId: string): ActionsTypes {
 	return {
 		type: MOUSE_OUT,
-		payload: newState
+		payload: ceilId
 	}
 }
 

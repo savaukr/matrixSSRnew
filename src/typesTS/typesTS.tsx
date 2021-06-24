@@ -31,7 +31,7 @@ export interface IRowsById {
 }
 export interface IRows {
   allIds: string[];
-  byId:  IRowsById; 
+  byId:  IRowsById;
 } 
 
 export interface IMatrix {
@@ -81,10 +81,10 @@ export interface IStateParamsHelp {
 }
 
 //interface for action
-interface objRowColumn {
-  row: number;
-  column: number;
-}
+// interface objRowColumn {
+//   row: number;
+//   column: number;
+// }
 
 interface IAddRow {
   type: typeof ADD_ROW;
@@ -96,7 +96,7 @@ interface IDeleteRow {
 }
 interface IIncreaseAmount {
   type: typeof INCREASE_AMOUNT;
-  payload: objRowColumn;
+  payload: string;
 }
 interface IMouseOverCeil {
   type: typeof MOUSE_OVER_CEIL;

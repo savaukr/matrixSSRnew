@@ -5,15 +5,8 @@ import Ceil from '../Ceil/Ceil'
 import { getSumOfRow } from "../../matrixService/matrixService";
 
 import {
-  ActionsTypes,
   IMatrix,
 } from "../../typesTS/typesTS";
-
-
-import {
-  mouseOverSum
-} from "../../redux/actions";
-
 
 //import "./Row.css";
 import * as styles from "./Row.module.css";
@@ -24,31 +17,27 @@ interface IRowProps {
   rowId:string;
   oneRow: any;
   footerClass: string;
-  mouseOverSum(matrix: IMatrix): ActionsTypes;
+  bright:string[];
 }
 
 const Row: FC<IRowProps> = ({
   rowId,
   oneRow,
   footerClass,
-  mouseOverSum
+  bright
 }) => {
-
   const [part, setPart] = useState(false)
-
-  // const getSumRow = useCallback( getSumOfRow, [oneRow] )
-  // const sum:number = getSumRow(oneRow)
-
   const  sum:number = useMemo( () => getSumOfRow(oneRow), [oneRow])
    
   const mouseOverSumHandler = useCallback ( (event: any) => {
-      setPart((prevPart) => !prevPart )}, [part])
+      setPart((prevPart) => !prevPart )
+    }, [part])
   
 
   const row = oneRow.map((item: any) => {
-    
+    const isBright = bright.includes(item.id, 0) ? true : false 
     return (
-      <Ceil key={item.id} item={item} sum={sum} footerClass={footerClass} part={part}/>
+      <Ceil key={item.id} item={item} sum={sum} footerClass={footerClass} part={part}   isBright={isBright}/>
     );
   });
   
@@ -77,9 +66,8 @@ const mapStateToProps = (matrix: IMatrix) => {
   };
 };
 
+// const mapDispatchToProps = {
+//   //mouseOverSum
+// };
 
-const mapDispatchToProps = {
-  mouseOverSum
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Row));
+export default connect(mapStateToProps, null)(React.memo(Row));

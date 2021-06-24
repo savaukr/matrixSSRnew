@@ -1,6 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import { connect } from "react-redux";
 import { ICeil } from "../../typesTS/typesTS";
+import { increaseAmount, mouseOverCeil, mouseOut } from "../../redux/actions";
+import { ActionsTypes } from "../../typesTS/typesTS";
+
 
 import * as styles from "./Ceil.module.css";
 const css = styles.default;
@@ -10,18 +13,42 @@ interface ICeilProps {
   part:boolean;
   sum:number;
   footerClass:string;
+  isBright:boolean;
+  increaseAmount(ceilId: string):ActionsTypes;
+  mouseOverCeil(ceilId:string): ActionsTypes;
+  mouseOut(ceilId:string): ActionsTypes;
 }
   
-const Ceil: FC<ICeilProps> = ({item, part, sum, footerClass}) => {
+const Ceil: FC<ICeilProps> = ({item, part, sum, footerClass, isBright, increaseAmount, mouseOverCeil, mouseOut}) => {
   const stylesHeight = {
     height: Math.round((item.amount * 100) / sum) * 2 + "%",
   };
+ 
+  const clickHandle = useCallback( () => {
+    increaseAmount(item.id)
+  }, [item])
+
+  const mouseOverCeilHandler = useCallback(() => {
+    mouseOverCeil(item.id)
+  }, [item])
+
+  const mouseOutHandler = useCallback ( () => {
+    mouseOut(item.id)
+  }, [item])
+
   return (
       <div
-        className={`${css.matrixCeil} ${footerClass ? css.footer : ""}  ${part ? css.part : ""}`}
+        className={`
+          ${css.matrixCeil} ${footerClass ? css.footer : ""}
+          ${part ? css.part : ""}
+          ${ isBright ? css.bright : "" }
+        `}
+        onClick={clickHandle}
+        onMouseOver = {mouseOverCeilHandler}
+        onMouseOut = {mouseOutHandler}
       >
         {part ? (
-          <div>{`${Math.round((item.amount * 100) / sum)}%`}</div>
+          <div >{`${Math.round((item.amount * 100) / sum)}%`}</div>
         ) : (
           item.amount
         )}
@@ -32,9 +59,9 @@ const Ceil: FC<ICeilProps> = ({item, part, sum, footerClass}) => {
 
 
 const mapDispatchToProps = {
-  // increaseAmount,
-  // mouseOverCeil,
-  // mouseOut,
+  increaseAmount,
+  mouseOverCeil,
+  mouseOut
 };
 
 export default connect(null, mapDispatchToProps)(React.memo(Ceil));

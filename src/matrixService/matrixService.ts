@@ -16,7 +16,6 @@ function addNewRow(state :IMatrix) {
     }
     matrix.rows.byId[rowId] =  { 'id': rowId, 'ceils': [...ceilsIdForRow] } 
     matrix.rows.allIds.push(rowId)
-    console.log('matrix:', matrix)
     return matrix
 }
 
@@ -37,6 +36,11 @@ function getMatrixRows(numColumns:number, numRows:number):IMatrixRow {
         rows.byId[rowId] = { 'id': rowId, 'ceils': [...ceilsIdForRow] } 
         rows.allIds.push(rowId)
     }
+    //відсортуємо масив з всіма Id комірок матриці, для подальшого пошуку комірок з підсвіткою 
+    ceils.allIds.sort((a, b) => {
+        return ceils.byId[b].amount -ceils.byId[a].amount
+    })
+
     return {
         ceils:ceils,
         rows: rows
@@ -88,7 +92,23 @@ const getSumOfRow = (row: ICeil[]):number => {
 
 }
 
+const getBrightCeilsIds = (ceils: ICeils, ceilId:string, X:number):string[] => {
+    let startInd:number, endInd:number, diff:number
+    const ind = ceils.allIds.indexOf(ceilId)
+    diff = ind-X
+    startInd =  diff > 0  ? ind-X : 0
+    diff = ind+X
+    endInd = diff < ceils.allIds.length ? ind+X : ceils.allIds.length-1 
+   
+    const arr:any = ceils.allIds.slice(startInd, endInd+1)
+    arr.sort((a:string, b:string) => {
+        return ceils.byId[b].amount - ceils.byId[a].amount
+    })
+    return [ceilId, ...arr.slice(0, X)]
+}
+
 export {
     getMatrixRows, getMatrix, deleteRow,
-    getAverages, getSumOfRow, addNewRow
+    getAverages, getSumOfRow, addNewRow,
+    getBrightCeilsIds
 }

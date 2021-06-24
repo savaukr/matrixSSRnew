@@ -30,6 +30,7 @@ const averages = useCallback( (matrix) => getAverages(matrix), [matrix])
         rowId = {rowId}
         oneRow = {oneRow}
         footerClass = {''}
+        bright={matrix.bright}
       />
     })
     table[maxRowId] = (
@@ -38,6 +39,7 @@ const averages = useCallback( (matrix) => getAverages(matrix), [matrix])
         rowId = {`${maxRowId}`}
         oneRow = { averages(matrix) }
         footerClass={"footer"}
+        bright={[]}
       />
     )
     return table;
