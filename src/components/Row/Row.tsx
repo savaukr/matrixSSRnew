@@ -1,46 +1,49 @@
 import React, { FC, useMemo, useCallback, useState } from "react";
 import { connect } from "react-redux";
 import DeleteRow from "../DeleteRow/DeleteRow";
-import Ceil from '../Ceil/Ceil'
+import Ceil from "../Ceil/Ceil";
 import { getSumOfRow } from "../../matrixService/matrixService";
 
-import {
-  IMatrix,
-} from "../../typesTS/typesTS";
+import { IStateMatrix, IStateParamsHelp } from "../../typesTS/typesTS";
 
 //import "./Row.css";
 import * as styles from "./Row.module.css";
 const css = styles.default;
 
-
 interface IRowProps {
-  rowId:string;
+  params: IStateParamsHelp;
+  rowId: string;
   oneRow: any;
   footerClass: string;
-  bright:string[];
+  bright: string[];
 }
 
-const Row: FC<IRowProps> = ({
-  rowId,
-  oneRow,
-  footerClass,
-  bright
-}) => {
-  const [part, setPart] = useState(false)
-  const  sum:number = useMemo( () => getSumOfRow(oneRow), [oneRow])
-   
-  const mouseOverSumHandler = useCallback ( (event: any) => {
-      setPart((prevPart) => !prevPart )
-    }, [part])
-  
+const Row: FC<IRowProps> = ({ params, rowId, oneRow, footerClass, bright }) => {
+  const [part, setPart] = useState(false);
+  const sum: number = useMemo(() => getSumOfRow(oneRow), [oneRow]);
+
+  const mouseOverSumHandler = useCallback(
+    (event: any) => {
+      setPart((prevPart) => !prevPart);
+    },
+    [part]
+  );
 
   const row = oneRow.map((item: any) => {
-    const isBright = bright.includes(item.id, 0) ? true : false 
+    const isBright = bright.includes(item.id, 0) ? true : false;
     return (
-      <Ceil key={item.id} item={item} sum={sum} footerClass={footerClass} part={part}   isBright={isBright}/>
+      <Ceil
+        key={item.id}
+        item={item}
+        sum={sum}
+        footerClass={footerClass}
+        part={part}
+        isBright={isBright}
+        X1={params.X1}
+      />
     );
   });
-  
+
   return (
     <div className={`${css.matrixRow}`}>
       <div className={`${css.matrixCeil} ${css.sidebarRow}`}>
@@ -60,11 +63,17 @@ const Row: FC<IRowProps> = ({
   );
 };
 
-const mapStateToProps = (matrix: IMatrix) => {
+const mapStateToProps = (state: IStateMatrix) => {
   return {
-    matrix
+    params: state.params,
   };
 };
+
+// const mapStateToProps = (matrix: IMatrix) => {
+//   return {
+//     matrix
+//   };
+// };
 
 // const mapDispatchToProps = {
 //   //mouseOverSum

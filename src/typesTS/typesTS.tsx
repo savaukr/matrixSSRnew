@@ -81,10 +81,11 @@ export interface IStateParamsHelp {
 }
 
 //interface for action
-// interface objRowColumn {
-//   row: number;
-//   column: number;
-// }
+
+interface IOverCeilPayload {
+  ceilId: string;
+  X: number;
+}
 
 interface IAddRow {
   type: typeof ADD_ROW;
@@ -100,7 +101,7 @@ interface IIncreaseAmount {
 }
 interface IMouseOverCeil {
   type: typeof MOUSE_OVER_CEIL;
-  payload: string;
+  payload: IOverCeilPayload;
 }
 interface IMouseOut {
   type: typeof MOUSE_OUT;
