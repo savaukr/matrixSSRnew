@@ -84,7 +84,7 @@ const PORT = process.env.PORT || 4000;
 //------------------------
 
 const server = http.createServer((req, res) => {
-   let data:any
+   let data:string
    let filePath = req.url
    const extname = path.extname(filePath)
    let contentType = 'text/html';

@@ -1,13 +1,15 @@
 import React, {FC, useState} from 'react'
+import { TFunc } from '../../typesTS/typesTS'
 //import './FormParamsMatrix.css'
-import * as styles from './FormParamsMatrix.module.css'
-const css = styles.default
+import styles from './FormParamsMatrix.module.css'
+const css = styles
+
 
 interface IFormParamsMatrixProps {
-    addParamsHandle():any
+    addParamsHandle:() => TFunc
   }
 
-export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): any=> {
+export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}) => {
     const [form, setForm]=useState({
         M1 :'',
         N1: '',
@@ -15,13 +17,15 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
 	})
     const [message, setMessage] = useState('')
 
-    const changeHandler = (event:any) => {
+    type InputEvent = React.ChangeEvent<HTMLInputElement>;
+
+    const changeHandler = (event:InputEvent) => {
 		setForm({...form, [event.target.name]: event.target.value})
 	}
 
-  
-    const sendHandler = (e:any) => {
-        e.preventDefault()
+    
+    const sendHandler = (event:React.SyntheticEvent) => {
+        event.preventDefault()
         const saveParams = addParamsHandle()
         saveParams({M1: +form.M1, N1:+form.N1, X1:+form.X1})
         setMessage("form is sending")

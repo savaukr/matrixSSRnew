@@ -6,8 +6,8 @@ import { IMatrix, ICeil } from "../../typesTS/typesTS";
 import { maxRowId } from "../../config/config";
 
 //import "./Matrix.css";
-import * as styles from "./Matrix.module.css";
-const css = styles.default;
+import styles from "./Matrix.module.css";
+const css = styles
 
 interface IMatrixProps {
   matrix: IMatrix;

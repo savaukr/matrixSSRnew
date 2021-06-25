@@ -9,7 +9,8 @@ import {
   ADD_MATRIX
 } from "../redux/types";
 
-//interface for perfomance
+export type TFunc = (params:IStateParamsHelp) => void
+
 export interface ICeil {
   id: string;
   amount: number;
@@ -47,26 +48,6 @@ export interface IStateMatrix {
   matrix: IMatrix;
   params: IStateParamsHelp;
 }
-// interface for component
-// export interface IRowItem {
-//   amount: number;
-//   bright: boolean;
-//   id: string;
-//   part: boolean;
-// }
-
-// export interface IRow{
-//   numRow: number,
-//   row : IRowItem
-// }
-
-// export interface IStateMatrixHelp {
-//   matrix: IRowItem[][];
-// }
-// export interface IStateMatrix {
-//   matrix: IStateMatrixHelp;
-//   params: IStateParamsHelp;
-// }
 
 export interface IAverage {
   id: string;

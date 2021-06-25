@@ -4,7 +4,7 @@ import { AddRow } from "./components/AddRow/AddRow";
 import {  addParams, addMatrix, addRow } from "./redux/actions";
 import Matrix from "./components/Matrix/Matrix";
 import {FormParamsMatrix} from './components/FormParamsMatrix/FormParamsMatrix'
-import {  IStateParamsHelp, IMatrix, IStateMatrix } from "./typesTS/typesTS";
+import {  IStateParamsHelp, IMatrix, IStateMatrix, TFunc } from "./typesTS/typesTS";
 import { getMatrix, addNewRow } from "./matrixService/matrixService";
 import { ActionsTypes } from './typesTS/typesTS'
 
@@ -17,13 +17,13 @@ interface IAppProps {
   //params: IStateParamsHelp;
 }
 
-const App: FC<IAppProps> = ({ matrix, addRow, addMatrix, addParams}): any => {
+const App: FC<IAppProps> = ({ matrix, addRow, addMatrix, addParams}) => {
   
   const addRowHandle = (event: React.MouseEvent<HTMLButtonElement>) => {
     addRow(addNewRow(matrix));
   };
 
-  const addParamsHandle = ():any => {
+  const addParamsHandle = ():TFunc => {
     return (newParams: IStateParamsHelp) => {
       addParams(newParams)
       addMatrix(getMatrix(newParams.M1, newParams.N1))

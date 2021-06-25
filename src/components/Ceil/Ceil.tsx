@@ -4,9 +4,9 @@ import { ICeil } from "../../typesTS/typesTS";
 import { increaseAmount, mouseOverCeil, mouseOut } from "../../redux/actions";
 import { ActionsTypes } from "../../typesTS/typesTS";
 import { X } from "../../config/config";
-import * as styles from "./Ceil.module.css";
+import styles from "./Ceil.module.css";
 
-const css = styles.default;
+const css = styles;
 
 interface ICeilProps {
   item: ICeil;

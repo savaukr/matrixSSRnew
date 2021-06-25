@@ -54,14 +54,14 @@ function getMatrix( N:number, M:number):IMatrix {
     }
 }
 
-function deleteRow(ind:number, rows:any, ceils:any):IMatrixRow {
+function deleteRow(ind:number, rows:IRows, ceils:ICeils):IMatrixRow {
     const rowId = `${ind}`
     const arrCeilsId = rows.byId[rowId].ceils
     rows.allIds.splice(rows.allIds.indexOf(rowId), 1)
-    delete rows.byId[rowId]
+    rows.byId[rowId]=null
     arrCeilsId.forEach((item:string) => {
         ceils.allIds.splice(ceils.allIds.indexOf(item),1)
-        delete ceils.byId[item]
+        ceils.byId[item]=null
     })
     return {
        rows: rows,
@@ -70,7 +70,6 @@ function deleteRow(ind:number, rows:any, ceils:any):IMatrixRow {
 }
 
 const getAverages = (matrix: IMatrix): IAverage[] => {
-    console.log('getAverage')
     let arrAverage:IAverage[]=[]
     const rowCount = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
     const columnCount = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;

@@ -1,19 +1,19 @@
-import React, { FC, useMemo, useCallback, useState } from "react";
+import React, { FC, useMemo, useCallback, useState, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import DeleteRow from "../DeleteRow/DeleteRow";
 import Ceil from "../Ceil/Ceil";
 import { getSumOfRow } from "../../matrixService/matrixService";
 
-import { IStateMatrix, IStateParamsHelp } from "../../typesTS/typesTS";
+import { ICeil, IStateMatrix, IStateParamsHelp } from "../../typesTS/typesTS";
 
 //import "./Row.css";
-import * as styles from "./Row.module.css";
-const css = styles.default;
+import styles from "./Row.module.css";
+const css = styles
 
 interface IRowProps {
   params: IStateParamsHelp;
   rowId: string;
-  oneRow: any;
+  oneRow: ICeil[];
   footerClass: string;
   bright: string[];
 }
@@ -23,13 +23,13 @@ const Row: FC<IRowProps> = ({ params, rowId, oneRow, footerClass, bright }) => {
   const sum: number = useMemo(() => getSumOfRow(oneRow), [oneRow]);
 
   const mouseOverSumHandler = useCallback(
-    (event: any) => {
+    (event: SyntheticEvent) => {
       setPart((prevPart) => !prevPart);
     },
     [part]
   );
 
-  const row = oneRow.map((item: any) => {
+  const row = oneRow.map((item: ICeil) => {
     const isBright = bright.includes(item.id, 0) ? true : false;
     return (
       <Ceil
@@ -69,14 +69,5 @@ const mapStateToProps = (state: IStateMatrix) => {
   };
 };
 
-// const mapStateToProps = (matrix: IMatrix) => {
-//   return {
-//     matrix
-//   };
-// };
-
-// const mapDispatchToProps = {
-//   //mouseOverSum
-// };
 
 export default connect(mapStateToProps, null)(React.memo(Row));
