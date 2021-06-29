@@ -1,8 +1,7 @@
-import React, { FC, useCallback } from "react";
-import { connect } from "react-redux";
+import React, { FC } from "react";
+import { useDispatch } from "react-redux";
 import { ICeil } from "../../typesTS/typesTS";
 import { increaseAmount, mouseOverCeil, mouseOut } from "../../redux/actions";
-import { ActionsTypes } from "../../typesTS/typesTS";
 import { X } from "../../config/config";
 import styles from "./Ceil.module.css";
 
@@ -15,9 +14,6 @@ interface ICeilProps {
   footerClass: string;
   isBright: boolean;
   X1: number;
-  increaseAmount(ceilId: string): ActionsTypes;
-  mouseOverCeil(ceilId: string, X: number): ActionsTypes;
-  mouseOut(ceilId: string): ActionsTypes;
 }
 
 const Ceil: FC<ICeilProps> = ({
@@ -26,26 +22,24 @@ const Ceil: FC<ICeilProps> = ({
   sum,
   footerClass,
   isBright,
-  X1,
-  increaseAmount,
-  mouseOverCeil,
-  mouseOut,
+  X1
 }) => {
   const stylesHeight = {
     height: Math.round((item.amount * 100) / sum) * 2 + "%",
   };
+  const dispatch = useDispatch()
 
-  const clickHandle = useCallback(() => {
-    increaseAmount(item.id);
-  }, [item]);
+  const clickHandle = () => {
+    dispatch(increaseAmount(item.id));
+  }
 
-  const mouseOverCeilHandler = useCallback(() => {
-    mouseOverCeil(item.id, X1 || X);
-  }, [item]);
+  const mouseOverCeilHandler = () => {
+    dispatch(mouseOverCeil(item.id, X1 || X));
+  }
 
-  const mouseOutHandler = useCallback(() => {
-    mouseOut(item.id);
-  }, [item]);
+  const mouseOutHandler = () => {
+    dispatch(mouseOut(item.id));
+  }
 
   return (
     <div
@@ -68,10 +62,5 @@ const Ceil: FC<ICeilProps> = ({
   );
 };
 
-const mapDispatchToProps = {
-  increaseAmount,
-  mouseOverCeil,
-  mouseOut,
-};
 
-export default connect(null, mapDispatchToProps)(React.memo(Ceil));
+export default React.memo(Ceil);

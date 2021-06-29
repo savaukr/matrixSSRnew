@@ -1,6 +1,7 @@
 import React, { FC, useMemo, useCallback, useState, SyntheticEvent } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import DeleteRow from "../DeleteRow/DeleteRow";
+import { deleteRow } from "../../redux/actions";
 import Ceil from "../Ceil/Ceil";
 import { getSumOfRow } from "../../matrixService/matrixService";
 
@@ -30,7 +31,7 @@ const Row: FC<IRowProps> = ({ params, rowId, oneRow, footerClass, bright }) => {
   );
 
   const row = oneRow.map((item: ICeil) => {
-    const isBright = bright.includes(item.id, 0) ? true : false;
+    const isBright = bright.includes(item.id, 0);
     return (
       <Ceil
         key={item.id}
@@ -44,10 +45,17 @@ const Row: FC<IRowProps> = ({ params, rowId, oneRow, footerClass, bright }) => {
     );
   });
 
+  
+  const dispatch = useDispatch()
+  const deleteHandle = 
+    (event: React.MouseEvent<HTMLButtonElement>):void => {
+      dispatch(deleteRow(+rowId));
+    }
+
   return (
     <div className={`${css.matrixRow}`}>
       <div className={`${css.matrixCeil} ${css.sidebarRow}`}>
-        <DeleteRow footerClass={footerClass} ind={rowId} />
+        <DeleteRow footerClass={footerClass} deleteHandle={deleteHandle} />
       </div>
       {row}
       <div

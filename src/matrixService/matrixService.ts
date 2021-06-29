@@ -1,12 +1,14 @@
 import { IMatrix, IMatrixRow, ICeils, ICeil, IRows,  IAverage } from './../typesTS/typesTS';
 
 function addNewRow(state :IMatrix) {
-    const matrix = {...state}
+    //const matrix = {...state}
+    const matrix = JSON.parse(JSON.stringify(state))
     const rowCount:number = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
     const columnCount:number = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;
     const lastrowId:string = matrix.rows.allIds[rowCount-1]
     const rowId:string = `${+lastrowId+1}`
     const ceilsIdForRow = []
+
     for (let j =0; j < columnCount; j++) {
         const ceilId:string = `${rowCount}x${j}`
         const amount = Math.floor( Math.random() * 1001)
@@ -53,6 +55,8 @@ function getMatrix( N:number, M:number):IMatrix {
         ...getMatrixRows(N, M)
     }
 }
+
+
 
 function deleteRow(ind:number, rows:IRows, ceils:ICeils):IMatrixRow {
     const rowId = `${ind}`

@@ -15,17 +15,17 @@ interface IMatrixProps {
 
 const Matrix: FC<IMatrixProps> = ({ matrix }) => {
   const [matrixJSX, setMatrixJSX] = useState();
-
+  //const m = useSelector(state => state)
+  //console.log(m)
   //const averages = useCallback((matrix) => getAverages(matrix), [matrix.ceils]);
   const averages = useMemo(() => getAverages(matrix), [matrix.ceils])
   
   function getMatrixJsx(matrix: IMatrix): any {
-    let table: any[] = [];
-    matrix.rows.allIds.forEach((rowId: string) => {
+    let table = matrix.rows.allIds.map((rowId: string) => {
       const oneRow: ICeil[] = matrix.rows.byId[rowId].ceils.map(
         (ceilId: string) => matrix.ceils.byId[ceilId]
       );
-      table[+rowId] = (
+      return (
         <Row
           key={rowId}
           rowId={rowId}
@@ -35,6 +35,7 @@ const Matrix: FC<IMatrixProps> = ({ matrix }) => {
         />
       );
     });
+
     table[maxRowId] =  (
       <Row
         key={maxRowId}
