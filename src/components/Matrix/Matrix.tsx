@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FC, useMemo} from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Row from "../Row/Row";
 import { getAverages } from "../../matrixService/matrixService";
 import { IMatrix, ICeil} from "../../typesTS/typesTS";
@@ -17,8 +17,7 @@ interface IMatrixProps {
 const Matrix: FC<IMatrixProps> = () => {
   const [matrixJSX, setMatrixJSX] = useState(null);
   const matrix:IMatrix = useSelector((state:TRootState) => state.matrix)
-  //console.log('m:', st)
-  
+   
   const averages = useMemo(() => getAverages(matrix), [matrix.ceils])
   
   function getMatrixJsx(matrix: IMatrix): JSX.Element[] {
@@ -67,10 +66,6 @@ const Matrix: FC<IMatrixProps> = () => {
   );
 };
 
-// const mapStateToProps = (state: IMatrix): IMatrix => {
-//   return {
-//     ...state,
-//   };
-// };
 
-export default connect(null, null)(Matrix);
+
+export default Matrix;
