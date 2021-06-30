@@ -1,32 +1,21 @@
-import React, {FC, useCallback} from 'react'
-import {connect} from 'react-redux'
-import {deleteRow} from '../../redux/actions'
-import { ActionsTypes } from '../../typesTS/typesTS'
+import React, { FC} from "react";
 
 interface IDeleteRowProps {
-    footerClass:string;
-    deleteRow(ind:number):ActionsTypes;
-    ind:number;
+  footerClass: string;
+  deleteHandle: any;
 }
 
-const DeleteRow:FC<IDeleteRowProps> = ({footerClass, deleteRow, ind}) => {
-	const deleteHandle = useCallback((event:React.MouseEvent<HTMLButtonElement>) => {
-        deleteRow(ind)
-    }, [ind])
+const DeleteRow: FC<IDeleteRowProps> = ({ footerClass, deleteHandle }) => {
 
-    if (footerClass) {
-        return (<></>)
-    } else {
-            return (
-                <>
-                    <button onClick={deleteHandle} >&times;</button>
-                </>
-            )
-    }
-}
+  if (footerClass) {
+    return <></>;
+  } else {
+    return (
+      <>
+        <button onClick={deleteHandle}>&times;</button>
+      </>
+    );
+  }
+};
 
-const mapDispatchToProps = {
-  deleteRow
-}
-
-export default connect(null, mapDispatchToProps)(DeleteRow)
+export default DeleteRow
