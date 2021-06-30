@@ -1,25 +1,26 @@
 import React, { FC, useMemo, useCallback, useState, SyntheticEvent } from "react";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteRow from "../DeleteRow/DeleteRow";
 import { deleteRow } from "../../redux/actions";
 import Ceil from "../Ceil/Ceil";
 import { getSumOfRow } from "../../matrixService/matrixService";
 
-import { ICeil, IStateMatrix, IStateParamsHelp } from "../../typesTS/typesTS";
+import { ICeil, IStateParamsHelp } from "../../typesTS/typesTS";
+import { TRootState} from '../../redux/rootReducer'
 
 //import "./Row.css";
 import styles from "./Row.module.css";
 const css = styles
 
 interface IRowProps {
-  params: IStateParamsHelp;
   rowId: string;
   oneRow: ICeil[];
   footerClass: string;
   bright: string[];
 }
 
-const Row: FC<IRowProps> = ({ params, rowId, oneRow, footerClass, bright }) => {
+const Row: FC<IRowProps> = ({ rowId, oneRow, footerClass, bright }) => {
+  const params:IStateParamsHelp = useSelector((state:TRootState) => state.params)
   const [part, setPart] = useState(false);
   const sum: number = useMemo(() => getSumOfRow(oneRow), [oneRow]);
 
@@ -71,11 +72,5 @@ const Row: FC<IRowProps> = ({ params, rowId, oneRow, footerClass, bright }) => {
   );
 };
 
-const mapStateToProps = (state: IStateMatrix) => {
-  return {
-    params: state.params,
-  };
-};
 
-
-export default connect(mapStateToProps, null)(React.memo(Row));
+export default React.memo(Row);

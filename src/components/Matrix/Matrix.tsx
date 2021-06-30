@@ -10,11 +10,9 @@ import { TRootState} from '../../redux/rootReducer'
 import styles from "./Matrix.module.css";
 const css = styles
 
-interface IMatrixProps {
-  //matrix: IMatrix;
-}
 
-const Matrix: FC<IMatrixProps> = () => {
+
+const Matrix: FC = () => {
   const [matrixJSX, setMatrixJSX] = useState(null);
   const matrix:IMatrix = useSelector((state:TRootState) => state.matrix)
    

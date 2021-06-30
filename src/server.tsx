@@ -72,6 +72,7 @@ import { getMatrix } from "./matrixService/matrixService";
 import http from 'http'
 import url from 'url'
 import fs from 'fs'
+import { IStateMatrix } from './typesTS/typesTS';
 //const fsp = require('fs').promises;
 
 const PORT = process.env.PORT || 4000;
@@ -114,19 +115,19 @@ function handleRender(req:http.IncomingMessage, res:http.ServerResponse) {
    const columns = query.N as string
    const X = query.X as string
 
-      const preloadedState = {
-         matrix: getMatrix(+rows, +columns),
-         params:  {M1:+rows, N1:+columns, X1:+X}
-      }
-      const store = createStore(rootReducer, preloadedState);
-      const html = renderToString(
-         <Provider store={store}>
-            <App />
-         </Provider>
-      )
-      
-      let data = renderFullPage(html, preloadedState)
-   // }
+   const preloadedState:IStateMatrix = {
+      matrix: getMatrix(+rows, +columns),
+      params:  {M1:+rows, N1:+columns, X1:+X}
+   }
+   
+   const store = createStore(rootReducer, preloadedState);
+   const html = renderToString(
+      <Provider store={store}>
+         <App />
+      </Provider>
+   )
+   
+   let data = renderFullPage(html, preloadedState)
    if (!data) {
       data  = 'No data'
    }

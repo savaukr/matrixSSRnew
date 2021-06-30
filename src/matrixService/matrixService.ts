@@ -39,17 +39,21 @@ function addNewRow(state :IMatrix) {
 function getMatrixRows(numColumns:number, numRows:number):IMatrixRow {
     let ceils:ICeils = {byId:{}, allIds:[]}
     let rows:IRows = {byId:{}, allIds:[]}
-    rows.allIds = new Array(numRows).fill(undefined).map((itemRow, indRow)=> {
-        const {newCeils, ceilsIdForRow} = getNewRow(numColumns, indRow, ceils)
-        const rowId = `${indRow}`
-        rows.byId[rowId] = { 'id': rowId, 'ceils': [...ceilsIdForRow] }
-        ceils = newCeils
-        return rowId
-    })
-  //відсортуємо масив з всіма Id комірок матриці, для подальшого пошуку комірок з підсвіткою 
-    ceils.allIds.sort((a, b) => {
-        return ceils.byId[b].amount -ceils.byId[a].amount
-    })
+
+    if (numRows) {
+        rows.allIds = new Array(numRows).fill(undefined).map((itemRow, indRow)=> {
+            const {newCeils, ceilsIdForRow} = getNewRow(numColumns, indRow, ceils)
+            const rowId = `${indRow}`
+            rows.byId[rowId] = { 'id': rowId, 'ceils': [...ceilsIdForRow] }
+            ceils = newCeils
+            return rowId
+        })
+        
+    //відсортуємо масив з всіма Id комірок матриці, для подальшого пошуку комірок з підсвіткою 
+        ceils.allIds.sort((a, b) => {
+            return ceils.byId[b].amount -ceils.byId[a].amount
+        })
+    }
     return {
         ceils:ceils,
         rows: rows
