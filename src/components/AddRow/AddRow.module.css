@@ -1,8 +1,8 @@
-.addRow-wrap {
+.addRowWrap {
     display: flex;
     justify-content: center;
 }
-.addRow-wrap button {
+.addRowWrap button {
     margin: 15px 0;
     padding: 10px 15px;
     height: 40px;
@@ -15,6 +15,6 @@
     line-height: 20px;
     cursor:pointer;
 }
-.addRow-wrap button:hover {
+.addRowWrap button:hover {
     background-color: rgb(24, 87, 87);
 }

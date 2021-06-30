@@ -1,0 +1,34 @@
+.matrixCeil {
+    width:45px;
+    height: 55px;
+    margin:1px;
+    padding: 0 10px;
+    border: 1px solid rgb(255,255,255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: rgb(80,80,80);
+}
+.matrixCeil.part {
+    color: rgb(20,20,20);
+    position: relative;
+    z-index: 2;
+}
+.matrixCeil.part div:last-child {
+    position:absolute;
+    bottom: 0;
+    width:100%;
+    background-color:  rgba(80,80,80, 0.6);
+}
+.bright {
+    background-color: rgb(80,80,80);
+    color: rgb(255,255,255)
+}
+
+.footer {
+    background-color: rgb(255,255,255);
+    color: rgb(80, 80, 80);
+    border-color: rgb(80, 80, 80);
+}

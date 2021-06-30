@@ -18,6 +18,39 @@ module.exports = (env) => {
         stylus: {
             test: /\.css$/,
             use: ['style-loader', 'css-loader'],
+            exclude: /\.module\.css$/
+        },
+        cssModules: {
+            test: /\.css$/,
+            use: [
+                {loader: 'style-loader'},
+                { loader: "css-modules-typescript-loader"},
+                {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1,
+                        modules: {localIdentName: '[local]--[hash:base64:5]'}
+                    }
+                }
+            ],
+            include: /\.module\.css$/
+        },
+        cssModulesIsomorph: {
+            test: /\.css$/,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                },
+                { loader: "css-modules-typescript-loader"},
+                {
+                    loader: "css-loader",
+                    options: {
+                        importLoaders: 1,
+                        modules: {localIdentName: '[local]--[hash:base64:5]'}
+                    }
+                }
+            ],
+            include: /\.module\.css$/
         },
         stylusIsomorph: {
             test: /\.css$/,
@@ -29,12 +62,14 @@ module.exports = (env) => {
                     loader: "css-loader",
                 }
             ],
+            exclude: /\.module\.css$/
         }
     }
 
     if (env === 'production') {
         modules.stylus.use.splice(2, 0, { loader: "postcss-loader" }),
-        modules.stylusIsomorph.use.splice(2, 0, { loader: "postcss-loader" })
+        modules.stylusIsomorph.use.splice(2, 0, { loader: "postcss-loader" }),
+        modules.cssModules.use.splice(3, 0, { loader: "postcss-loader" })
     }
 
 

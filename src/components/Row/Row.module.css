@@ -1,0 +1,48 @@
+﻿.matrixRow {
+    display:flex;
+    justify-content: center;
+}
+.matrixRow:last-child {
+    margin-top:10px;
+}
+
+.matrixCeil {
+    width:45px;
+    height: 55px;
+    margin:1px;
+    padding: 0 10px;
+    border: 1px solid rgb(255,255,255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: rgb(80,80,80);
+}
+
+.sum {
+    min-width:80px;
+    color:rgb(255,255,255);
+    background-color: rgb(55,202,139);
+}
+
+.sidebarRow {
+    width:80px;
+    background-color: rgb(55,202,139);
+}
+.sidebarRow button {
+    width:60%;
+    height: 70%;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    border:none;
+}
+.sidebarRow button:hover {
+    background-color: rgb(136, 4, 11);
+}
+.matrixRow:last-child .sidebarRow:after {
+    content:'Середнє стовпця';
+    font-size: 16px;
+    width:100%;
+}

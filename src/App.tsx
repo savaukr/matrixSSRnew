@@ -46,8 +46,6 @@ const App: FC<IAppProps> = ({ addRow, addParams, addMatrix, matrix }): any => {
       return (
         <div className="container">
             <FormParamsMatrix addParamsHandle={addParamsHandle}/>
-          {/*<h1>Немає жодної стрічки!</h1>
-          <AddRow addRowHandle={addRowHandle} />*/}
           </div>
       );
     }

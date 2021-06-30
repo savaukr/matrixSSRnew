@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react'
-import './FormParamsMatrix.css'
-//import {useHttp} from '../../hooks/http.hook'
+//import './FormParamsMatrix.css'
+import * as styles from './FormParamsMatrix.module.css'
+const css = styles.default
 
 interface IFormParamsMatrixProps {
     addParamsHandle():any
@@ -13,30 +14,23 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
         X1:''
 	})
     const [message, setMessage] = useState('')
-    //const {request} = useHttp()
 
     const changeHandler = (event:any) => {
 		setForm({...form, [event.target.name]: event.target.value})
 	}
 
-    // const sendHandler =  async () => {
-	// 	try {
-	// 		const data = await request(`/?M=${form.rows}&N=${form.columns}&X=${form.X}`, 'GET')
-	// 		setMessage(data.message)
-	// 	} catch (e) {}
-	// }
+  
     const sendHandler = (e:any) => {
         e.preventDefault()
-        console.log('event Form :',e)
         const saveParams = addParamsHandle()
         saveParams({M1: +form.M1, N1:+form.N1, X1:+form.X1})
         setMessage("form is sending")
     }
     return (
-        <div className="form_params">
+        <div className={`${css.form_params}`}>
             <div>{message}</div>
                 <form id="form" onSubmit={sendHandler}>
-                    <div className="input-field">
+                    <div className={`${css.inputField}`}>
                         <label htmlFor="M">Стрічки:</label>
                             <input 
                             placeholder="Введіть кількість стрічок"
@@ -47,7 +41,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
                             onChange={changeHandler}
                             />
                     </div>
-                    <div className="input-field">
+                    <div className={`${css.inputField}`}>
                         <label htmlFor="N">Стовбці:</label>
                         <input 
                         placeholder="Введіть кількість стовпчиків"
@@ -57,7 +51,7 @@ export const FormParamsMatrix:FC<IFormParamsMatrixProps> = ({addParamsHandle}): 
                         value={form.N1}
                         onChange={changeHandler}
                         />
-                    </div><div className="input-field">
+                    </div><div className={`${css.inputField}`}>
                         <label htmlFor="X">X1:</label>
                         <input 
                         placeholder="Введіть X"

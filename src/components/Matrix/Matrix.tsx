@@ -1,13 +1,17 @@
 import React, { useEffect, useState, FC } from "react";
 import { connect } from "react-redux";
 import Row from "../Row/Row";
-import "./Matrix.css";
+
 import {
   IRowItem,
   IAverage,
   IStateMatrix,
   IStateMatrixHelp,
 } from "../../typesTS/typesTS";
+
+//import "./Matrix.css";
+import * as styles from './Matrix.module.css'
+const css = styles.default;
 
 interface IMatrixProps {
   matrix: IRowItem[][];
@@ -52,12 +56,12 @@ const Matrix: FC<IMatrixProps> = ({ matrix }) => {
   }, [matrix]);
 
   return (
-    <div className="matrix-wrap">
-      <div className="matrix-content">
+    <div className={`${css.matrixWrap}`}>
+      <div className={`${css.matrixContent}`}>
         <h4>
           Matrix {matrix.length}x{matrix[0].length}
         </h4>
-        <div className="matrix-header">Сума по рядку</div>
+        <div className={`${css.matrixHeader}`}>Сума по рядку</div>
         {matrixJSX}
       </div>
     </div>
