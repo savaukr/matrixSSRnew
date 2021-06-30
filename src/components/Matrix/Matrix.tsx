@@ -1,26 +1,27 @@
 import React, { useEffect, useState, FC, useMemo} from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import Row from "../Row/Row";
 import { getAverages } from "../../matrixService/matrixService";
-import { IMatrix, ICeil } from "../../typesTS/typesTS";
+import { IMatrix, ICeil} from "../../typesTS/typesTS";
 import { maxRowId } from "../../config/config";
+import { TRootState} from '../../redux/rootReducer'
 
 //import "./Matrix.css";
 import styles from "./Matrix.module.css";
 const css = styles
 
 interface IMatrixProps {
-  matrix: IMatrix;
+  //matrix: IMatrix;
 }
 
-const Matrix: FC<IMatrixProps> = ({ matrix }) => {
-  const [matrixJSX, setMatrixJSX] = useState();
-  //const m = useSelector(state => state)
-  //console.log(m)
-  //const averages = useCallback((matrix) => getAverages(matrix), [matrix.ceils]);
+const Matrix: FC<IMatrixProps> = () => {
+  const [matrixJSX, setMatrixJSX] = useState(null);
+  const matrix:IMatrix = useSelector((state:TRootState) => state.matrix)
+  //console.log('m:', st)
+  
   const averages = useMemo(() => getAverages(matrix), [matrix.ceils])
   
-  function getMatrixJsx(matrix: IMatrix): any {
+  function getMatrixJsx(matrix: IMatrix): JSX.Element[] {
     let table = matrix.rows.allIds.map((rowId: string) => {
       const oneRow: ICeil[] = matrix.rows.byId[rowId].ceils.map(
         (ceilId: string) => matrix.ceils.byId[ceilId]
@@ -66,10 +67,10 @@ const Matrix: FC<IMatrixProps> = ({ matrix }) => {
   );
 };
 
-const mapStateToProps = (state: IMatrix): IMatrix => {
-  return {
-    ...state,
-  };
-};
+// const mapStateToProps = (state: IMatrix): IMatrix => {
+//   return {
+//     ...state,
+//   };
+// };
 
-export default connect(mapStateToProps, null)(Matrix);
+export default connect(null, null)(Matrix);

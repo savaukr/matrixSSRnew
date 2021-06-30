@@ -43,7 +43,7 @@ const App: FC<IAppProps> = ({ matrix, addRow, addMatrix, addParams}) => {
     }
     return (
       <div className="container">
-        <Matrix matrix={matrix} />
+        <Matrix />
         <AddRow addRowHandle={addRowHandle} />
       </div>
     );

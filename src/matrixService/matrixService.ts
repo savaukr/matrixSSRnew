@@ -19,7 +19,6 @@ function getNewRow(numColumns:number, indRow:number, ceils:ICeils = {byId:{}, al
 }
 
 function addNewRow(state :IMatrix) {
-    //const matrix = {...state}
     const matrix = cloneObj(state)
     const rowCount:number = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
     const columnCount:number = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;
@@ -37,11 +36,9 @@ function addNewRow(state :IMatrix) {
 }
 
 
-
 function getMatrixRows(numColumns:number, numRows:number):IMatrixRow {
     let ceils:ICeils = {byId:{}, allIds:[]}
     let rows:IRows = {byId:{}, allIds:[]}
-   
     rows.allIds = new Array(numRows).fill(undefined).map((itemRow, indRow)=> {
         const {newCeils, ceilsIdForRow} = getNewRow(numColumns, indRow, ceils)
         const rowId = `${indRow}`
@@ -53,7 +50,6 @@ function getMatrixRows(numColumns:number, numRows:number):IMatrixRow {
     ceils.allIds.sort((a, b) => {
         return ceils.byId[b].amount -ceils.byId[a].amount
     })
-
     return {
         ceils:ceils,
         rows: rows
@@ -127,7 +123,7 @@ const getBrightCeilsIds = (ceils: ICeils, ceilId:string, X:number):string[] => {
     diff = ind+X
     endInd = diff < ceils.allIds.length ? ind+X : ceils.allIds.length-1 
    
-    const arr:any = ceils.allIds.slice(startInd, endInd+1)
+    const arr:string[] = ceils.allIds.slice(startInd, endInd+1)
     arr.sort((a:string, b:string) => {
         return ceils.byId[b].amount - ceils.byId[a].amount
     })
