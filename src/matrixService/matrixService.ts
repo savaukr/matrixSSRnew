@@ -1,5 +1,10 @@
 import { IMatrix, IMatrixRow, ICeils, ICeil, IRows,  IAverage } from './../typesTS/typesTS';
 
+
+function cloneObj<CloneType>(obj:CloneType):CloneType {
+    return  JSON.parse(JSON.stringify(obj))
+}
+
 //допоміжна функція отримання стрічки для матриці
 function getNewRow(numColumns:number, indRow:number, ceils:ICeils = {byId:{}, allIds:[]} ) {
     const newCeils:ICeils = cloneObj(ceils)
@@ -15,7 +20,7 @@ function getNewRow(numColumns:number, indRow:number, ceils:ICeils = {byId:{}, al
 
 function addNewRow(state :IMatrix) {
     //const matrix = {...state}
-    const matrix = JSON.parse(JSON.stringify(state))
+    const matrix = cloneObj(state)
     const rowCount:number = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
     const columnCount:number = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;
     const lastrowId:string = matrix.rows.allIds[rowCount-1]
@@ -55,7 +60,6 @@ function getMatrixRows(numColumns:number, numRows:number):IMatrixRow {
     }
 }
 
-
 function getMatrix( N:number, M:number):IMatrix {
     return {
         bright:[],
@@ -63,48 +67,34 @@ function getMatrix( N:number, M:number):IMatrix {
     }
 }
 
-
-
-// function deleteRow(ind:number, rows:IRows, ceils:ICeils):IMatrixRow {
-//     const rowId = `${ind}`
-//     const arrCeilsId = rows.byId[rowId].ceils
-//     rows.allIds.splice(rows.allIds.indexOf(rowId), 1)
-//     rows.byId[rowId]=null
-//     arrCeilsId.forEach((item:string) => {
-//         ceils.allIds.splice(ceils.allIds.indexOf(item),1)
-//         ceils.byId[item]=null
-//     })
-//     return {
-//        rows: rows,
-//        ceils: ceils
-//     }
-// }
-
-/////////////////////////////////////////////////////////////////
-function cloneObj<CloneType>(obj:CloneType):CloneType {
-    return  JSON.parse(JSON.stringify(obj))
+function deleteCeils(rowId:string, rows:IRows, ceils:ICeils): ICeils {
+    rows.byId[rowId].ceils.map((item:string) => {
+        ceils.allIds.splice(ceils.allIds.indexOf(item),1)
+        ceils.byId[item]=null
+        return item
+    })
+   
+    return ceils
 }
 
 function deleteRow(ind:number, rows:IRows, ceils:ICeils):IMatrixRow {
     const newRows = cloneObj<IRows>(rows)
-    const newCeils =  cloneObj<ICeils>(ceils)
+    let newCeils =  cloneObj<ICeils>(ceils)
     const rowId = `${ind}`
-    const arrCeilsId = newRows.byId[rowId].ceils
-    newRows.allIds.splice(rows.allIds.indexOf(rowId), 1)
-    newRows.byId[rowId]=null
-
-    arrCeilsId.forEach((item:string) => {
+    newRows.byId[rowId].ceils.map((item:string) => {
         newCeils.allIds.splice(newCeils.allIds.indexOf(item),1)
         newCeils.byId[item]=null
+        return item
     })
+    newCeils = deleteCeils(rowId, newRows, newCeils)
+    newRows.allIds.splice(rows.allIds.indexOf(rowId), 1)
+    newRows.byId[rowId]=null
     return {
        rows: newRows,
        ceils: newCeils
     }
 }
 
-////////////////////////////////////////////////////////////////////
-//функція getAverages в функціональному стилі
 const getAverages = (stateMatrix:IMatrix): IAverage[] => {
     const matrix = cloneObj(stateMatrix)
     const rowCount = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
@@ -120,25 +110,6 @@ const getAverages = (stateMatrix:IMatrix): IAverage[] => {
         return { id: `footer${ind}`, amount: Math.ceil(sum / rowCount) }
     })
 }
-
-////////////////////////
-
-// const getAverages = (matrix: IMatrix): IAverage[] => {
-//     let arrAverage:IAverage[]=[]
-//     const rowCount = matrix.rows?.allIds ?  matrix.rows?.allIds.length : 0;
-//     const columnCount = matrix.rows.allIds ? matrix.rows.byId[matrix.rows.allIds[0]].ceils.length : 0;
-// // return new Array(100).fill(undefined).map((x, i) => i + 1);
-//     for (let j=0; j < columnCount; j++) {
-//         let sum:number = 0
-//         matrix.rows.allIds.forEach((rowId:string) => {
-//             const ceilId = matrix.rows.byId[rowId].ceils[j]
-//             sum += matrix.ceils.byId[ceilId].amount
-//         })
-//         arrAverage[j] = { id: `footer${j}`, amount: Math.ceil(sum / rowCount) };
-//     }
-//     return arrAverage;
-
-// };
 
 const getSumOfRow = (row: ICeil[]):number => {
     return row.reduce(
