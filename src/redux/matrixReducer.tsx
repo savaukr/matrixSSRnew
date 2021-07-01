@@ -8,10 +8,11 @@ import {M, N} from '../config/config'
 import {  IMatrix, ActionsTypes } from '../typesTS/typesTS'
 import {getMatrix,
 	   deleteRow,
-	   getBrightCeilsIds
+	   getBrightCeilsIds,
+	   //getBrightCeilsIds1
 } from '../matrixService/matrixService'
 
-
+import { cloneObj } from '../matrixService/matrixService'
 
  const initialState:IMatrix = getMatrix(M, N)
 
@@ -21,11 +22,11 @@ export const matrixReducer = (state=initialState, action: ActionsTypes): IMatrix
 		case ADD_ROW: 
 			return { ...state, ...action.payload}
 		case DELETE_ROW: 
-		    const rows = {...state.rows} 
-			const ceils = {...state.ceils}
+		    const rows = cloneObj(state.rows) 
+			const ceils =  cloneObj(state.ceils)
 			return {...state, ...deleteRow(action.payload, rows, ceils)}
 		case INCREASE_AMOUNT: 
-			const newCeils = {...state.ceils}
+			const newCeils = cloneObj(state.ceils)
 			newCeils.byId[action.payload].amount =  newCeils.byId[action.payload].amount+1
 			return { ...state, ceils: newCeils}
 		 case MOUSE_OVER_CEIL: 

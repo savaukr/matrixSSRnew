@@ -19,7 +19,7 @@ const Matrix: FC = () => {
   const averages = useMemo(() => getAverages(matrix), [matrix.ceils])
   
   function getMatrixJsx(matrix: IMatrix): JSX.Element[] {
-    let table = matrix.rows.allIds.map((rowId: string) => {
+    let table = matrix.rows.allIds.map((rowId) => {
       const oneRow: ICeil[] = matrix.rows.byId[rowId].ceils.map(
         (ceilId: string) => matrix.ceils.byId[ceilId]
       );

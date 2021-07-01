@@ -34,7 +34,7 @@ const Ceil: FC<ICeilProps> = ({
   }
 
   const mouseOverCeilHandler = () => {
-    dispatch(mouseOverCeil(item.id, X1 || X));
+    if (!footerClass) dispatch(mouseOverCeil(item.id, X1 || X));
   }
 
   const mouseOutHandler = () => {

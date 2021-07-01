@@ -30,7 +30,7 @@ function addNewRow(state :IMatrix) {
     matrix.rows.allIds.push(rowId)
     //відсортуємо масив з всіма Id комірок матриці, для подальшого пошуку комірок з підсвіткою 
     matrix.ceils.allIds.sort((a:string, b:string) => {
-        return matrix.ceils.byId[b].amount -matrix.ceils.byId[a].amount
+        return matrix.ceils.byId[a].amount -matrix.ceils.byId[b].amount
     })
     return matrix
 }
@@ -51,7 +51,7 @@ function getMatrixRows(numColumns:number, numRows:number):IMatrixRow {
         
     //відсортуємо масив з всіма Id комірок матриці, для подальшого пошуку комірок з підсвіткою 
         ceils.allIds.sort((a, b) => {
-            return ceils.byId[b].amount -ceils.byId[a].amount
+            return ceils.byId[a].amount -ceils.byId[b].amount
         })
     }
     return {
@@ -69,11 +69,10 @@ function getMatrix( N:number, M:number):IMatrix {
 
 function deleteCeils(rowId:string, rows:IRows, ceils:ICeils): ICeils {
     rows.byId[rowId].ceils.map((item:string) => {
-        ceils.allIds.splice(ceils.allIds.indexOf(item),1)
+        ceils.allIds.splice(ceils.allIds.indexOf(item), 1)
         ceils.byId[item]=null
         return item
     })
-   
     return ceils
 }
 
@@ -81,11 +80,6 @@ function deleteRow(ind:number, rows:IRows, ceils:ICeils):IMatrixRow {
     const newRows = cloneObj<IRows>(rows)
     let newCeils =  cloneObj<ICeils>(ceils)
     const rowId = `${ind}`
-    newRows.byId[rowId].ceils.map((item:string) => {
-        newCeils.allIds.splice(newCeils.allIds.indexOf(item),1)
-        newCeils.byId[item]=null
-        return item
-    })
     newCeils = deleteCeils(rowId, newRows, newCeils)
     newRows.allIds.splice(rows.allIds.indexOf(rowId), 1)
     newRows.byId[rowId]=null
@@ -119,23 +113,50 @@ const getSumOfRow = (row: ICeil[]):number => {
 
 }
 
-const getBrightCeilsIds = (ceils: ICeils, ceilId:string, X:number):string[] => {
-    let startInd:number, endInd:number, diff:number
-    const ind = ceils.allIds.indexOf(ceilId)
-    diff = ind-X
-    startInd =  diff > 0  ? ind-X : 0
-    diff = ind+X
-    endInd = diff < ceils.allIds.length ? ind+X : ceils.allIds.length-1 
+// const getBrightCeilsIds = (ceils: ICeils, ceilId:string, X:number):string[] => {
+//     let startInd:number, endInd:number, diff:number
+//     const ind = ceils.allIds.indexOf(ceilId)
+//     diff = ind-X
+//     startInd =  diff > 0  ? diff : 0
+//     diff = ind+X
+//     endInd = diff < ceils.allIds.length ? diff : ceils.allIds.length-1 
    
-    const arr:string[] = ceils.allIds.slice(startInd, endInd+1)
-    arr.sort((a:string, b:string) => {
-        return ceils.byId[b].amount - ceils.byId[a].amount
-    })
-    return [ceilId, ...arr.slice(0, X)]
+//     const arr:string[] = ceils.allIds.slice(startInd, endInd+1)
+//     arr.sort((a:string, b:string) => {
+//         return ceils.byId[b].amount - ceils.byId[a].amount
+//     })
+//     return [ceilId, ...arr.slice(0, X)]
+// }
+
+function changeStart(X:number, start:number, end:number, ind:number, ceils:ICeils):number  {
+    const arr:string[] = [...ceils.allIds]
+    const diffStart = ceils.byId[arr[ind]].amount - ceils.byId[arr[start]].amount
+    const diffEnd = ceils.byId[arr[end]].amount - ceils.byId[arr[ind]].amount
+    if ( (diffEnd !==0 && diffStart >= diffEnd) || (diffEnd === 0 &&  end !== ind))  start +=1
+    if ( (diffStart !==0 && diffStart < diffEnd) || (diffStart === 0 &&  start !== ind)) end -=1 
+    if ( end-start === X ) return start
+        else return changeStart(X, start, end, ind, ceils)
+}
+
+const getBrightCeilsIds = (ceils: ICeils, ceilId:string, X:number):string[] => { 
+    if (ceils.allIds.length <= X) return [ ... ceils.allIds]
+    const ind:number = ceils.allIds.indexOf(ceilId)
+    let start:number = ind - X
+    if (start < 0) start = 0
+    let end = ind + X
+    if (end > ceils.allIds.length-1) end = ceils.allIds.length-1
+    start = changeStart(X, start, end, ind, ceils)
+    return [ ... ceils.allIds.slice(start, start+X+1)]
 }
 
 export {
     getMatrixRows, getMatrix, deleteRow,
     getAverages, getSumOfRow, addNewRow,
-    getBrightCeilsIds
+    getBrightCeilsIds, cloneObj
 }
+
+// Давай этот блок кода перепишем, фактически тебе нужно вырезать подмассив четкой длинны,
+//  который не вылазит за рамки массива [====---------], [-----=====------] ну или [-----====]
+// Придумай более функциональную запись для этого кода.
+// Ты сейчас говоришь как делать, а нужно писать так чтобы оно код говорил что делать.
+// Подумай, потом выдерни меня и мы попробуем написать этот код лучше
