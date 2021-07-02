@@ -53,6 +53,7 @@ export interface IAverage {
   id: string;
   amount: number;
 }
+
 //interface for params 
 export interface IStateParamsHelp {
   M1:number | null;
