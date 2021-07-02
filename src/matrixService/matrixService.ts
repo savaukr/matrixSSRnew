@@ -123,7 +123,7 @@ const getSumOfRow = (row: ICeil[]):number => {
    
 //     const arr:string[] = ceils.allIds.slice(startInd, endInd+1)
 //     arr.sort((a:string, b:string) => {
-//         return ceils.byId[b].amount - ceils.byId[a].amount
+//         return ceils.byId[a].amount - ceils.byId[b].amount
 //     })
 //     return [ceilId, ...arr.slice(0, X)]
 // }
