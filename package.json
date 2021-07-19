@@ -6,6 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --env=jsdom",
     "watch": "webpack server --config webpack.client.js --mode development",
+    "watchProd": "webpack server --config webpack.client.js --mode production",
     "build": "webpack --config webpack.client.js --mode production",
     "dev": "webpack --config webpack.client.js --mode development",
     "start": "webpack --config webpack.server.js --mode production && node ./server/main.js"

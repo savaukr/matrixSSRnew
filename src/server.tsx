@@ -67,11 +67,12 @@ import {Provider} from 'react-redux'
 import {rootReducer} from './redux/rootReducer'
 import { renderToString } from 'react-dom/server'
 import App from './App';
-import { getMatrix } from "./redux/matrixReducer";
+import { getMatrix } from "./matrixService/matrixService";
 
 import http from 'http'
 import url from 'url'
 import fs from 'fs'
+import { IStateMatrix } from './typesTS/typesTS';
 //const fsp = require('fs').promises;
 
 const PORT = process.env.PORT || 4000;
@@ -84,7 +85,7 @@ const PORT = process.env.PORT || 4000;
 //------------------------
 
 const server = http.createServer((req, res) => {
-   let data:any
+   let data:string
    let filePath = req.url
    const extname = path.extname(filePath)
    let contentType = 'text/html';
@@ -114,19 +115,19 @@ function handleRender(req:http.IncomingMessage, res:http.ServerResponse) {
    const columns = query.N as string
    const X = query.X as string
 
-      const preloadedState = {
-         matrix: {matrix: getMatrix(+rows, +columns)},
-         params:  {M1:+rows, N1:+columns, X1:+X}
-      }
-      const store = createStore(rootReducer, preloadedState);
-      const html = renderToString(
-         <Provider store={store}>
-            <App />
-         </Provider>
-      )
-      
-      let data = renderFullPage(html, preloadedState)
-   // }
+   const preloadedState:IStateMatrix = {
+      matrix: getMatrix(+rows, +columns),
+      params:  {M1:+rows, N1:+columns, X1:+X}
+   }
+   
+   const store = createStore(rootReducer, preloadedState);
+   const html = renderToString(
+      <Provider store={store}>
+         <App />
+      </Provider>
+   )
+   
+   let data = renderFullPage(html, preloadedState)
    if (!data) {
       data  = 'No data'
    }

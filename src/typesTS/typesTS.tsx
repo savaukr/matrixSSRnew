@@ -9,17 +9,52 @@ import {
   ADD_MATRIX
 } from "../redux/types";
 
-// interface for component
-export interface IRowItem {
-  amount: number;
-  bright: boolean;
+export type TFunc = (params:IStateParamsHelp) => void
+
+export interface ICeil {
   id: string;
-  part: boolean;
+  amount: number;
+}
+export interface ICeilsById {
+  [key:string]:ICeil;
+}
+export interface ICeils{
+  allIds: string[];
+  byId:  ICeilsById;
 }
 
-export interface IStateMatrixHelp {
-  matrix: IRowItem[][];
+export interface IRow {
+  id: string;
+  ceils: string[] ;
 }
+export interface IRowsById {
+  [key:string]: IRow;
+}
+export interface IRows {
+  allIds: string[];
+  byId:  IRowsById;
+} 
+
+export interface IMatrix {
+  bright: string[] | [];
+  ceils: ICeils;
+  rows: IRows;
+}
+export interface IMatrixRow {
+  ceils: ICeils;
+  rows: IRows;
+}
+export interface IStateMatrix {
+  matrix: IMatrix;
+  params: IStateParamsHelp;
+}
+
+export interface IAverage {
+  id: string;
+  amount: number;
+}
+
+//interface for params 
 export interface IStateParamsHelp {
   M1:number | null;
   N1:number | null;
@@ -27,19 +62,11 @@ export interface IStateParamsHelp {
 
 }
 
-export interface IStateMatrix {
-  matrix: IStateMatrixHelp;
-  params: IStateParamsHelp;
-}
-export interface IAverage {
-  id: string;
-  amount: number;
-}
-
 //interface for action
-interface objRowColumn {
-  row: number;
-  column: number;
+
+interface IOverCeilPayload {
+  ceilId: string;
+  X: number;
 }
 
 interface IAddRow {
@@ -52,19 +79,19 @@ interface IDeleteRow {
 }
 interface IIncreaseAmount {
   type: typeof INCREASE_AMOUNT;
-  payload: objRowColumn;
+  payload: string;
 }
 interface IMouseOverCeil {
   type: typeof MOUSE_OVER_CEIL;
-  payload: IRowItem[][];
+  payload: IOverCeilPayload;
 }
 interface IMouseOut {
   type: typeof MOUSE_OUT;
-  payload: IRowItem[][];
+  payload: string;
 }
 interface IMouseOverSum {
   type: typeof MOUSE_OVER_SUM;
-  payload: IRowItem[][];
+  payload:number;
 }
 
 interface IAddParams {
@@ -73,7 +100,7 @@ interface IAddParams {
 }
 interface IAddMatrix {
   type: typeof ADD_MATRIX;
-  payload: IRowItem[][]
+  payload: IMatrix
 }
 
 export type ActionsTypes =
